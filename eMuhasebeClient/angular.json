@@ -25,7 +25,7 @@
               "src/styles.css",
               "src/assets/plugins/fontawesome-free/css/all.min.css",
               "src/assets/dist/css/adminlte.min.css",
-              "src/styles.css"
+              "node_modules/flexi-toast/src/flexi-toast.css"
             ],
             "scripts": [
               "src/assets/plugins/jquery/jquery.min.js",

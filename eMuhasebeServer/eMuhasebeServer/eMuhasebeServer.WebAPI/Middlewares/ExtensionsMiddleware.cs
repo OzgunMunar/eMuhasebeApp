@@ -17,8 +17,8 @@ namespace eMuhasebeServer.WebAPI.Middlewares
                     {
                         UserName = "admin",
                         Email = "admin@admin.com",
-                        FirstName = "Taner",
-                        LastName = "Saydam",
+                        FirstName = "Özgün",
+                        LastName = "MUNAR",
                         EmailConfirmed = true
                     };
 

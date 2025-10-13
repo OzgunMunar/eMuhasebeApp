@@ -11,15 +11,15 @@ export const routes: Routes = [
     {
         path: "",
         loadComponent: () => import("../app/components/layouts/layouts"),
-        // canActivateChild: [()=> inject(AuthService).isAuthenticated()],
+        canActivateChild: [()=> inject(AuthService).isAuthenticated()],
         children: [
             {
                 path: "",
                 loadComponent: () => import("../app/components/home/home")
             },
             {
-                path: "examples",
-                loadComponent: () => import("../app/components/examples/examples")
+                path: "users",
+                loadComponent: () => import("../app/components/users/users")
             }
         ]
     }

@@ -6,6 +6,7 @@ import { FlexiGridModule } from 'flexi-grid';
 import { FlexiSelectModule } from 'flexi-select';
 import BlankComponent from '../components/blank/blank';
 import { Section } from '../components/section/section';
+import { FormValidateDirective } from 'form-validate-angular';
 
 @NgModule({
   declarations: [    
@@ -17,7 +18,8 @@ import { Section } from '../components/section/section';
     FormsModule,
     TrCurrencyPipe,
     FlexiGridModule,
-    FlexiSelectModule
+    FlexiSelectModule,
+    FormValidateDirective
   ],
   exports: [
     CommonModule,
@@ -26,7 +28,8 @@ import { Section } from '../components/section/section';
     FormsModule,
     TrCurrencyPipe,
     FlexiGridModule,
-    FlexiSelectModule
+    FlexiSelectModule,
+    FormValidateDirective
   ]
 })
 export class SharedModule { }

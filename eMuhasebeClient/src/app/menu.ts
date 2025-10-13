@@ -15,9 +15,16 @@ export const Menus: MenuModel[] = [
         subMenus: []
     },
     {
-        name: "Examples",
-        icon: "fa-solid fa-explosion",
-        url: "/examples",
+        name: "Admin",
+        icon: "",
+        url: "",
+        isTitle: true,
+        subMenus: []
+    },
+    {
+        name: "Kullanıcılar",
+        icon: "fa-solid fa-users",
+        url: "/users",
         isTitle: false,
         subMenus: []
     }
