@@ -22,14 +22,20 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/animations": "^20.3.4",
     "@angular/common": "^20.3.0",
     "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
     "@angular/forms": "^20.3.0",
     "@angular/platform-browser": "^20.3.0",
+    "@angular/platform-browser-dynamic": "^20.3.4",
     "@angular/router": "^20.3.0",
+    "flexi-grid": "^20.0.9",
+    "flexi-select": "^20.0.14",
     "flexi-toast": "^20.0.4",
+    "jwt-decode": "^4.0.0",
     "rxjs": "~7.8.0",
+    "tr-currency": "^20.0.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {

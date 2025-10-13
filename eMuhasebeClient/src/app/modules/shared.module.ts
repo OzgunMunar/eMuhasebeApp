@@ -1,13 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BlankComponent } from '../components/blank/blank.component';
-import { SectionComponent } from '../components/section/section.component';
 import { FormsModule } from '@angular/forms';
 import { TrCurrencyPipe } from 'tr-currency';
 import { FlexiGridModule } from 'flexi-grid';
 import { FlexiSelectModule } from 'flexi-select';
-
-
+import BlankComponent from '../components/blank/blank';
+import { Section } from '../components/section/section';
 
 @NgModule({
   declarations: [    
@@ -15,7 +13,7 @@ import { FlexiSelectModule } from 'flexi-select';
   imports: [
     CommonModule,
     BlankComponent, 
-    SectionComponent,
+    Section,
     FormsModule,
     TrCurrencyPipe,
     FlexiGridModule,
@@ -24,7 +22,7 @@ import { FlexiSelectModule } from 'flexi-select';
   exports: [
     CommonModule,
     BlankComponent, 
-    SectionComponent,
+    Section,
     FormsModule,
     TrCurrencyPipe,
     FlexiGridModule,

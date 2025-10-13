@@ -5,32 +5,7 @@
   "projects": {
     "eMuhasebeClient": {
       "projectType": "application",
-      "schematics": {
-        "@schematics/angular:class": {
-          "skipTests": true
-        },
-        "@schematics/angular:component": {
-          "skipTests": true
-        },
-        "@schematics/angular:directive": {
-          "skipTests": true
-        },
-        "@schematics/angular:guard": {
-          "skipTests": true
-        },
-        "@schematics/angular:interceptor": {
-          "skipTests": true
-        },
-        "@schematics/angular:pipe": {
-          "skipTests": true
-        },
-        "@schematics/angular:resolver": {
-          "skipTests": true
-        },
-        "@schematics/angular:service": {
-          "skipTests": true
-        }
-      },
+      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -48,7 +23,14 @@
             ],
             "styles": [
               "src/styles.css",
-              "./node_modules/flexi-toast/src/flexi-toast.css"
+              "src/assets/plugins/fontawesome-free/css/all.min.css",
+              "src/assets/dist/css/adminlte.min.css",
+              "src/styles.css"
+            ],
+            "scripts": [
+              "src/assets/plugins/jquery/jquery.min.js",
+              "src/assets/plugins/bootstrap/js/bootstrap.bundle.min.js",
+              "src/assets/dist/js/adminlte.min.js"
             ]
           },
           "configurations": {

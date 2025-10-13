@@ -17,7 +17,7 @@ export class SwalService {
   }
 
   callSwal(title: string, text: string, callBack: () => void, confirmButtonText: string = "Delete", cancelButtonText: string = "Cancel") {
-    this.toast.showSwal(title, text, () => callBack(), confirmButtonText, cancelButtonText);
+    this.toast.showSwal(title, text, confirmButtonText, () => callBack(), cancelButtonText);
   }
 
   toTitleCase(str: string) {

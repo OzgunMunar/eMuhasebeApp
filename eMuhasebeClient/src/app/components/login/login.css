@@ -1,0 +1,17 @@
+.login-div {
+    width: 100%;
+}
+
+.login-row{
+    width: 99%;
+    background-color: #EDEADE;
+    width: 100%;
+}
+
+.login-part-2{
+    height: 100vh;    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+}

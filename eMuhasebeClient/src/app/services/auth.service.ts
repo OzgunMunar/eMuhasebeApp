@@ -15,7 +15,9 @@ export class AuthService {
   ) { }
 
   isAuthenticated(){
+
     this.token = localStorage.getItem("token") ?? "";
+
     if(this.token === ""){
       this.router.navigateByUrl("/login");
       return false;
@@ -39,5 +41,7 @@ export class AuthService {
     
 
     return true;
+
   }
+  
 }

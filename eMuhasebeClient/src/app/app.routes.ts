@@ -1,29 +1,27 @@
-import { Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
-import { LayoutsComponent } from './components/layouts/layouts.component';
-import { HomeComponent } from './components/home/home.component';
 import { inject } from '@angular/core';
+import { Routes } from '@angular/router';
 import { AuthService } from './services/auth.service';
-import { ExamplesComponent } from './components/examples/examples.component';
 
 export const routes: Routes = [
+
     {
         path: "login",
-        component: LoginComponent
+        loadComponent: () => import("../app/components/login/login")
     },
     {
         path: "",
-        component: LayoutsComponent,
-        //canActivateChild: [()=> inject(AuthService).isAuthenticated()],
+        loadComponent: () => import("../app/components/layouts/layouts"),
+        // canActivateChild: [()=> inject(AuthService).isAuthenticated()],
         children: [
             {
                 path: "",
-                component: HomeComponent
+                loadComponent: () => import("../app/components/home/home")
             },
             {
                 path: "examples",
-                component: ExamplesComponent
+                loadComponent: () => import("../app/components/examples/examples")
             }
         ]
     }
+
 ];
