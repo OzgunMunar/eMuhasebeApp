@@ -24,7 +24,7 @@ export class MainSidebar {
     constructor(
     public auth: AuthService
   ){
-    console.log(this.auth.user().name)
+    // console.log(this.auth.user().name)
   }
 
 }

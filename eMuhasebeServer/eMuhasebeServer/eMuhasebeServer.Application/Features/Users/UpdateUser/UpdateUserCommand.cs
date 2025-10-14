@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
 using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Repositories;
+using GenericRepository;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -13,19 +15,25 @@ namespace eMuhasebeServer.Application.Features.Users.UpdateUser
         string LastName,
         string UserName,
         string Email,
-        string? Password)
+        string? Password,
+        List<Guid> CompanyIds)
         : IRequest<Result<string>>;
 
     internal sealed class UpdateUserCommandHandler(
         UserManager<AppUser> userManager,
-        IMapper mapper)
+        IMapper mapper,
+        ICompanyUserRepository companyUserRepository,
+        IUnitOfWork unitOfWork)
         : IRequestHandler<UpdateUserCommand, Result<string>>
     {
         public async Task<Result<string>> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
         {
 
             AppUser? appUser = await userManager
-                .FindByIdAsync(request.Id.ToString());
+                .Users
+                .Where(p => p.Id == request.Id)
+                .Include(p => p.CompanyUsers)
+                .FirstOrDefaultAsync(cancellationToken);
 
             bool isMailChanged = false;
 
@@ -81,6 +89,19 @@ namespace eMuhasebeServer.Application.Features.Users.UpdateUser
                     return Result<string>.Failure(identityResult.Errors.Select(s => s.Description).ToList());
                 }
             }
+
+            companyUserRepository.DeleteRange(appUser.CompanyUsers);
+
+            List<CompanyUser> companyUsers = request.CompanyIds.Select(s => new CompanyUser
+            {
+
+                AppUserId = appUser.Id,
+                CompanyId = s
+
+            }).ToList();
+
+            await companyUserRepository.AddRangeAsync(companyUsers, cancellationToken);
+            await unitOfWork.SaveChangesAsync(cancellationToken);
 
             if(isMailChanged)
             {

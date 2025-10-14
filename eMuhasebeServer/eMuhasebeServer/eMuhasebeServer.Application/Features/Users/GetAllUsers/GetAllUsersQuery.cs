@@ -17,6 +17,8 @@ namespace eMuhasebeServer.Application.Features.Users.GetAllUsers
         {
 
             List<AppUser> users = await userManager.Users
+                .Include(p => p.CompanyUsers!)
+                .ThenInclude(p => p.Company)
                 .OrderBy(user => user.FirstName)
                 .ToListAsync(cancellationToken);
 

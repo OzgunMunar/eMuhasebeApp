@@ -1,10 +1,11 @@
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { SharedModule } from '../../modules/shared.module';
 import { UserPipe } from '../../pipes/user-pipe';
-import { initialUserModel, UserModel } from '../../models/user.model';
+import { initialUserModel, UserModel } from '../../models/usermodels/user.model';
 import { HttpService } from '../../services/http.service';
 import { SwalService } from '../../services/swal.service';
 import { NgForm } from '@angular/forms';
+import { CompanyModel, initialCompanyModel } from '../../models/companymodels/company.model';
 
 @Component({
 
@@ -20,9 +21,10 @@ import { NgForm } from '@angular/forms';
 
 export default class Users {
 
-  readonly users = signal<UserModel[]>([{...initialUserModel}])
-  readonly createModel = signal<UserModel>({...initialUserModel})
-  readonly updateModel = signal<UserModel>({...initialUserModel})
+  readonly users = signal<UserModel[]>([{ ...initialUserModel }])
+  readonly companies = signal<CompanyModel[]>([])
+  readonly createModel = signal<UserModel>({ ...initialUserModel })
+  readonly updateModel = signal<UserModel>({ ...initialUserModel })
   search: string = ""
 
   @ViewChild("createModalCloseBtn") createModalCloseBtn: ElementRef<HTMLButtonElement> | undefined
@@ -34,12 +36,19 @@ export default class Users {
   constructor() {
 
     this.getAll()
+    this.getAllCompanies()
 
   }
 
   getAll() {
     this.#http.post<UserModel[]>("Users/GetAll", {}, (res) => {
       this.users.set(res)
+    });
+  }
+
+  getAllCompanies() {
+    this.#http.post<CompanyModel[]>("Company/GetAll", {}, (res) => {
+      this.companies.set(res)
     });
   }
 
@@ -50,10 +59,10 @@ export default class Users {
       this.#http.post<string>("Users/Create", this.createModel(), (res) => {
 
         this.#swal.callToast(res)
-        
-        this.createModel.set({...initialUserModel})
-        this.createModalCloseBtn?.nativeElement.click()
 
+        this.createModel.set({ ...initialUserModel })
+        this.createModalCloseBtn?.nativeElement.click()
+        this.createModel.set({...initialUserModel})
         this.getAll()
 
       })
@@ -78,15 +87,18 @@ export default class Users {
   }
 
   get(model: UserModel) {
-    this.updateModel.set({...model})
+    this.updateModel.set({ ...model })
+    this.updateModel.update((val) => ({
+      ...val,
+      companyIds: val.companyUsers.map(value => value.companyId) 
+    }))
   }
 
   update(form: NgForm) {
 
     if (form.valid) {
 
-      if(this.updateModel().password === "")
-      {
+      if (this.updateModel().password === "") {
         this.updateModel.update((val) => ({
           ...val,
           password: null
@@ -98,6 +110,7 @@ export default class Users {
         this.#swal.callToast(res, "info")
         this.updateModalCloseBtn?.nativeElement.click()
         this.getAll()
+        this.updateModel.set({...initialUserModel})
 
       })
 

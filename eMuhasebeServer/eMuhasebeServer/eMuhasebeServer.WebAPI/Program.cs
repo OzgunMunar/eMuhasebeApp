@@ -29,6 +29,7 @@ builder.Services.AddControllers().AddOData(action =>
 {
     action.EnableQueryFeatures();
 });
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(setup =>
 {

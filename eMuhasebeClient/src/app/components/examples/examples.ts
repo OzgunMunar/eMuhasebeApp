@@ -1,7 +1,7 @@
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { SharedModule } from '../../modules/shared.module';
 import { ExamplePipe } from '../../pipes/example-pipe';
-import { ExampleModel, initialExampleModel } from '../../models/example.model';
+import { ExampleModel, initialExampleModel } from '../../models/commonmodels/example.model';
 import { HttpService } from '../../services/http.service';
 import { SwalService } from '../../services/swal.service';
 import { NgForm } from '@angular/forms';
@@ -34,6 +34,10 @@ export default class Examples {
   readonly #http = inject(HttpService)
   readonly #swal = inject(SwalService)
 
+  constructor(){
+    this.getAll()
+  }
+
   getAll() {
     this.#http.post<ExampleModel[]>("Examples/GetAll", {}, (res) => {
       this.examples.set(res)
@@ -50,7 +54,7 @@ export default class Examples {
         
         this.createModel.set({...initialExampleModel})
         this.createModalCloseBtn?.nativeElement.click()
-
+        this.createModel.set({...initialExampleModel})
         this.getAll()
 
       })
@@ -86,6 +90,7 @@ export default class Examples {
 
         this.#swal.callToast(res, "info")
         this.updateModalCloseBtn?.nativeElement.click()
+        this.updateModel.set({...initialExampleModel})
         this.getAll()
 
       })

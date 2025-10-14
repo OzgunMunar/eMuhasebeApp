@@ -1,14 +1,14 @@
 import { Injectable, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtPayload, jwtDecode } from 'jwt-decode';
-import { initialUserModel, UserModel } from '../models/user.model';
+import { initialUserModel, UserModel } from '../models/usermodels/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+
   token: string = "";
-  // user: UserModel = new UserModel();
   readonly user = signal<UserModel>({ ...initialUserModel })
 
   constructor(
@@ -34,17 +34,34 @@ export class AuthService {
     }
 
     this.user.update(u => ({
-      
+
       ...u,
       id: decode["Id"],
       name: decode["Name"],
       email: decode["Email"],
-      userName: decode["UserName"]
+      userName: decode["UserName"],
+      companyId: decode["CompanyId"],
+      companies: JSON.parse(decode["Companies"])
 
     }))
 
     return true;
 
+  }
+
+  refreshUserFromToken(token: string) {
+    const decode: JwtPayload | any = jwtDecode(token);
+    this.user.update(u => ({
+
+      ...u,
+      id: decode["Id"],
+      name: decode["Name"],
+      email: decode["Email"],
+      userName: decode["UserName"],
+      companyId: decode["CompanyId"],
+      companies: JSON.parse(decode["Companies"])
+
+    }))
   }
 
 }

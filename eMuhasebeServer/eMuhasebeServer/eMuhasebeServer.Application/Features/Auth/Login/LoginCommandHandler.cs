@@ -1,5 +1,7 @@
 ﻿using eMuhasebeServer.Application.Services;
+using eMuhasebeServer.Domain.Dtos;
 using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +12,7 @@ namespace eMuhasebeServer.Application.Features.Auth.Login
     internal sealed class LoginCommandHandler(
         UserManager<AppUser> userManager,
         SignInManager<AppUser> signInManager,
+        ICompanyUserRepository companyUserRepository,
         IJwtProvider jwtProvider) : IRequestHandler<LoginCommand, Result<LoginCommandResponse>>
     {
         public async Task<Result<LoginCommandResponse>> Handle(LoginCommand request, CancellationToken cancellationToken)
@@ -46,8 +49,34 @@ namespace eMuhasebeServer.Application.Features.Auth.Login
                 return (500, "Şifreniz yanlış");
             }
 
-            var loginResponse = await jwtProvider.CreateToken(user);
+            List<CompanyUser> companyUsers = await companyUserRepository
+                .Where(p => p.AppUserId == user.Id)
+                .Include(p => p.Company)
+                .ToListAsync(cancellationToken);
 
+            List<CompanyTokenDTO> companies = new();
+            Guid? companyId = null;
+
+            if(companyUsers.Count > 0)
+            {
+                companyId = companyUsers.First().CompanyId;
+                companies = companyUsers.Select(s => new CompanyTokenDTO
+                {
+
+                    UserId = s.AppUserId,
+                    CompanyId = s.CompanyId,
+                    CompanyName = s.Company!.CompanyName,
+                    TaxDepartment = s.Company!.TaxDepartment,
+                    TaxNumber = s.Company!.TaxNumber,
+                    FullAddress = s.Company!.FullAddress
+
+                }).ToList();
+            }
+
+            var loginResponse = await jwtProvider.CreateToken(
+                user, 
+                companyId,
+                companies);
 
             return loginResponse;
         }

@@ -20,6 +20,10 @@ export const routes: Routes = [
             {
                 path: "users",
                 loadComponent: () => import("../app/components/users/users")
+            },
+            {
+                path: "companies",
+                loadComponent: () => import("../app/components/companies/companies")
             }
         ]
     }

@@ -1,9 +1,9 @@
 import { Component, inject, signal } from '@angular/core';
 import { SharedModule } from '../../modules/shared.module';
-import { LoginModel } from '../../models/login.model';
+import { LoginModel } from '../../models/loginmodels/login.model';
 import { HttpService } from '../../services/http.service';
 import { Router } from '@angular/router';
-import { LoginResponseModel } from '../../models/login.response.model';
+import { LoginResponseModel } from '../../models/loginmodels/login.response.model';
 
 @Component({
   selector: 'app-login',
