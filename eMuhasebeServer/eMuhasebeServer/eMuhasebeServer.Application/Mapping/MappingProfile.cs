@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using eMuhasebeServer.Application.Features.CashRegisters.Create;
+using eMuhasebeServer.Application.Features.CashRegisters.Update;
 using eMuhasebeServer.Application.Features.Companies.Create;
 using eMuhasebeServer.Application.Features.Companies.Update;
 using eMuhasebeServer.Application.Features.Users.CreateUser;
 using eMuhasebeServer.Application.Features.Users.UpdateUser;
 using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Enum;
 
 namespace eMuhasebeServer.Application.Mapping
 {
@@ -17,6 +20,17 @@ namespace eMuhasebeServer.Application.Mapping
 
             CreateMap<CreateCompanyCommand, Company>();
             CreateMap<UpdateCompanyCommand, Company>();
+
+            CreateMap<CreateCashRegisterCommand, CashRegister>()
+                .ForMember(member => member.CurrencyType, options =>
+                {
+                    options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CashRegisterTypeValue));
+                });
+            CreateMap<UpdateCashRegisterCommand, CashRegister>()
+                .ForMember(member => member.CurrencyType, options =>
+                {
+                    options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CashRegisterTypeValue));
+                });
 
 
         }

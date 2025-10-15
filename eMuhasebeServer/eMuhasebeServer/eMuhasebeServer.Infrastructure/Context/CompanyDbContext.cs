@@ -1,4 +1,5 @@
 ﻿using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Enum;
 using eMuhasebeServer.Domain.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ namespace eMuhasebeServer.Infrastructure.Context
     internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
     {
         private string connectionString = string.Empty;
+        public DbSet<CashRegister> CashRegisters { get; set; }
 
         public CompanyDbContext(Company company)
         {
@@ -24,6 +26,19 @@ namespace eMuhasebeServer.Infrastructure.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(connectionString);
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+            modelBuilder.Entity<CashRegister>().Property(p => p.CashDepositAmount).HasColumnType("money");
+            modelBuilder.Entity<CashRegister>().Property(p => p.CashWithdrawalAmount).HasColumnType("money");
+            modelBuilder.Entity<CashRegister>().Property(p => p.BalanceAmount).HasColumnType("money");
+            modelBuilder.Entity<CashRegister>().Property(p => p.CurrencyType)
+                .HasConversion(type => type.Value, value => CurrencyTypeEnum.FromValue(value));
+
+            modelBuilder.Entity<CashRegister>().HasQueryFilter(filter => !filter.IsDeleted);
+
         }
 
         private void CreateConnectionString(IHttpContextAccessor httpContextAccessor, ApplicationDbContext applicationDbContext)
