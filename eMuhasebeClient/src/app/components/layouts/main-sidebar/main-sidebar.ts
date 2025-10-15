@@ -24,7 +24,12 @@ export class MainSidebar {
     constructor(
     public auth: AuthService
   ){
-    // console.log(this.auth.user().name)
+    
+    if(!this.auth.user().isAdmin)
+    {
+      this.menus = this.menus.filter(p => !p.isAdminOnly)
+    }
+
   }
 
 }

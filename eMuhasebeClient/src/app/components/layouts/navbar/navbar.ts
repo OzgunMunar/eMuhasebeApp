@@ -30,6 +30,7 @@ export class Navbar {
 
   constructor() {
     this.companyId.set(this.auth.user().companyId)
+    console.table(this.auth.user())
   }
 
   changeCompany() {
@@ -44,7 +45,6 @@ export class Navbar {
         localStorage.clear()
         localStorage.setItem("token", res.token)
         document.location.reload()
-        // this.auth.refreshUserFromToken(res.token)
 
       })
 

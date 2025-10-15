@@ -41,27 +41,13 @@ export class AuthService {
       email: decode["Email"],
       userName: decode["UserName"],
       companyId: decode["CompanyId"],
-      companies: JSON.parse(decode["Companies"])
+      companies: JSON.parse(decode["Companies"]),
+      isAdmin: decode["IsAdmin"] == "True" ? true : false
 
     }))
 
     return true;
 
-  }
-
-  refreshUserFromToken(token: string) {
-    const decode: JwtPayload | any = jwtDecode(token);
-    this.user.update(u => ({
-
-      ...u,
-      id: decode["Id"],
-      name: decode["Name"],
-      email: decode["Email"],
-      userName: decode["UserName"],
-      companyId: decode["CompanyId"],
-      companies: JSON.parse(decode["Companies"])
-
-    }))
   }
 
 }
