@@ -13,6 +13,8 @@ namespace eMuhasebeServer.Infrastructure.Context
         private string connectionString = string.Empty;
         public DbSet<CashRegister> CashRegisters { get; set; }
         public DbSet<CashRegisterDetail> CashRegisterDetails { get; set; }
+        public DbSet<Bank> Banks { get; set; }
+        
 
         public CompanyDbContext(Company company)
         {
@@ -33,6 +35,8 @@ namespace eMuhasebeServer.Infrastructure.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
+            #region CashRegister ModelBuilder
+
             modelBuilder.Entity<CashRegister>().Property(p => p.CashDepositAmount).HasColumnType("money");
             modelBuilder.Entity<CashRegister>().Property(p => p.CashWithdrawalAmount).HasColumnType("money");
             modelBuilder.Entity<CashRegister>().Property(p => p.CurrencyType)
@@ -41,11 +45,27 @@ namespace eMuhasebeServer.Infrastructure.Context
             modelBuilder.Entity<CashRegister>()
                 .HasMany(p => p.CashRegisterDetails)
                 .WithOne()
-                .HasForeignKey(p=> p.CashRegisterId);
+                .HasForeignKey(p => p.CashRegisterId);
+
+            #endregion
+
+            #region CashRegisterDetailModelBuilder
 
             modelBuilder.Entity<CashRegisterDetail>().Property(p => p.CashDepositAmount).HasColumnType("money");
             modelBuilder.Entity<CashRegisterDetail>().Property(p => p.CashWithdrawalAmount).HasColumnType("money");
             modelBuilder.Entity<CashRegisterDetail>().HasQueryFilter(filter => !filter.IsDeleted);
+
+            #endregion
+
+            #region BankModelBuilder
+
+            modelBuilder.Entity<Bank>().Property(p => p.BankDepositAmount).HasColumnType("money");
+            modelBuilder.Entity<Bank>().Property(p => p.BankWithdrawalAmount).HasColumnType("money");
+            modelBuilder.Entity<Bank>().Property(p => p.CurrencyType)
+                .HasConversion(type => type.Value, value => CurrencyTypeEnum.FromValue(value));
+            modelBuilder.Entity<Bank>().HasQueryFilter(filter => !filter.IsDeleted);
+
+            #endregion
 
         }
 

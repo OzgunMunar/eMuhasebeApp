@@ -1,5 +1,4 @@
-﻿using Azure;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TS.Result;
 

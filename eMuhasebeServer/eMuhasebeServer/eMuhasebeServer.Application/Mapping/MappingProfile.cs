@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using eMuhasebeServer.Application.Features.Banks.Create;
+using eMuhasebeServer.Application.Features.Banks.Update;
 using eMuhasebeServer.Application.Features.CashRegisters.Create;
 using eMuhasebeServer.Application.Features.CashRegisters.Update;
 using eMuhasebeServer.Application.Features.Companies.Create;
@@ -31,6 +33,9 @@ namespace eMuhasebeServer.Application.Mapping
                 {
                     option.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
                 });
+
+            CreateMap<CreateBankCommand, Bank>();
+            CreateMap<UpdateBankCommand, Bank>();
 
         }
     }
