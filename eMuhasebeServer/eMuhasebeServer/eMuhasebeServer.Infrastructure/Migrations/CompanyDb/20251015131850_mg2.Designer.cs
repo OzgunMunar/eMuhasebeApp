@@ -12,8 +12,8 @@ using eMuhasebeServer.Infrastructure.Context;
 namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 {
     [DbContext(typeof(CompanyDbContext))]
-    [Migration("20251015105341_mg10")]
-    partial class mg10
+    [Migration("20251015131850_mg2")]
+    partial class mg2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,39 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                     b.HasKey("Id");
 
                     b.ToTable("CashRegisters");
+                });
+
+            modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CashRegisterDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("CashDepositAmount")
+                        .HasColumnType("money");
+
+                    b.Property<Guid?>("CashRegisterDetailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CashRegisterId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("CashWithdrawalAmount")
+                        .HasColumnType("money");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("OpenedDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CashRegisterDetails");
                 });
 #pragma warning restore 612, 618
         }

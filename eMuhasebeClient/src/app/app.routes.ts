@@ -24,6 +24,23 @@ export const routes: Routes = [
             {
                 path: "companies",
                 loadComponent: () => import("../app/components/companies/companies")
+            },
+            {
+                path: "cashregisters",
+                children: [
+                    {
+                        path:"",
+                        loadComponent: () => import("../app/components/cashregisters/cashregisters")
+                    },
+                    {
+                        path:"details/:id",
+                        loadComponent: () => import("../app/components/cashregisterdetails/cashregisterdetails")
+                    }
+                ]
+            },
+            {
+                path: "cashregisters",
+                loadComponent: () => import("../app/components/cashregisters/cashregisters")
             }
         ]
     }

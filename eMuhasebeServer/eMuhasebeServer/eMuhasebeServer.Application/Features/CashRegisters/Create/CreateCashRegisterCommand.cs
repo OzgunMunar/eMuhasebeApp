@@ -8,7 +8,7 @@ namespace eMuhasebeServer.Application.Features.CashRegisters.Create
 {
     public sealed record CreateCashRegisterCommand(
         string CashRegisterName,
-        int CashRegisterTypeValue)
+        int CurrencyTypeValue)
         : IRequest<Result<string>>;
 
     internal sealed class CreateCashRegisterCommandHandler(

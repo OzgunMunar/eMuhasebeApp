@@ -10,8 +10,8 @@ namespace eMuhasebeServer.Domain.Enum
         }
 
         public static readonly CurrencyTypeEnum TL = new("TL", 1);
-        public static readonly CurrencyTypeEnum USD = new("USD", 1);
-        public static readonly CurrencyTypeEnum EUR = new("EUR", 1);
+        public static readonly CurrencyTypeEnum USD = new("USD", 2);
+        public static readonly CurrencyTypeEnum EUR = new("EUR", 3);
 
     }
 }

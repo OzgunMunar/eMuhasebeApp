@@ -9,8 +9,10 @@ namespace eMuhasebeServer.Infrastructure.Context
 {
     internal sealed class CompanyDbContext : DbContext, IUnitOfWorkCompany
     {
+
         private string connectionString = string.Empty;
         public DbSet<CashRegister> CashRegisters { get; set; }
+        public DbSet<CashRegisterDetail> CashRegisterDetails { get; set; }
 
         public CompanyDbContext(Company company)
         {
@@ -33,11 +35,17 @@ namespace eMuhasebeServer.Infrastructure.Context
 
             modelBuilder.Entity<CashRegister>().Property(p => p.CashDepositAmount).HasColumnType("money");
             modelBuilder.Entity<CashRegister>().Property(p => p.CashWithdrawalAmount).HasColumnType("money");
-            modelBuilder.Entity<CashRegister>().Property(p => p.BalanceAmount).HasColumnType("money");
             modelBuilder.Entity<CashRegister>().Property(p => p.CurrencyType)
                 .HasConversion(type => type.Value, value => CurrencyTypeEnum.FromValue(value));
-
             modelBuilder.Entity<CashRegister>().HasQueryFilter(filter => !filter.IsDeleted);
+            modelBuilder.Entity<CashRegister>()
+                .HasMany(p => p.CashRegisterDetails)
+                .WithOne()
+                .HasForeignKey(p=> p.CashRegisterId);
+
+            modelBuilder.Entity<CashRegisterDetail>().Property(p => p.CashDepositAmount).HasColumnType("money");
+            modelBuilder.Entity<CashRegisterDetail>().Property(p => p.CashWithdrawalAmount).HasColumnType("money");
+            modelBuilder.Entity<CashRegisterDetail>().HasQueryFilter(filter => !filter.IsDeleted);
 
         }
 

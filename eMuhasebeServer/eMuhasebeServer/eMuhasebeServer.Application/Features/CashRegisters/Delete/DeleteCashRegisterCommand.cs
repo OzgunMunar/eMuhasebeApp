@@ -6,32 +6,32 @@ using TS.Result;
 
 namespace eMuhasebeServer.Application.Features.CashRegisters.Delete
 {
-    public sealed record DeleteCashRegisterCommand(
+    public sealed record DeleteCashRegisterDetailCommand(
         Guid Id
         ) : IRequest<Result<string>>;
 
-    internal sealed record UpdateCashRegisterCommandHandler(
-        ICashRegisterRepository cashRegisterRepository,
+    internal sealed record DeleteCashRegisterDetailCommandHandler(
+        ICashRegisterDetailRepository cashRegisterDetailRepository,
         IUnitOfWorkCompany unitOfWorkCompany,
         IMapper Mapper)
-        : IRequestHandler<DeleteCashRegisterCommand, Result<string>>
+        : IRequestHandler<DeleteCashRegisterDetailCommand, Result<string>>
     {
-        public async Task<Result<string>> Handle(DeleteCashRegisterCommand request, CancellationToken cancellationToken)
+        public async Task<Result<string>> Handle(DeleteCashRegisterDetailCommand request, CancellationToken cancellationToken)
         {
 
-            CashRegister? cashRegister = await cashRegisterRepository
+            CashRegisterDetail? cashRegisterDetail = await cashRegisterDetailRepository
                 .GetByExpressionWithTrackingAsync(p => p.Id == request.Id, cancellationToken);
 
-            if ( cashRegister is null )
+            if (cashRegisterDetail is null)
             {
-                return Result<string>.Failure(404, "Cash Register record not found.");
+                return Result<string>.Failure(404, "Cash Register Detail record not found.");
             }
 
-            cashRegister.IsDeleted = true;
+            cashRegisterDetail.IsDeleted= true;
 
             await unitOfWorkCompany.SaveChangesAsync(cancellationToken);
 
-            return Result<string>.Succeed("Cash Register record is deleted.");
+            return Result<string>.Succeed("Cash Register Detail record is deleted.");
 
         }
     }

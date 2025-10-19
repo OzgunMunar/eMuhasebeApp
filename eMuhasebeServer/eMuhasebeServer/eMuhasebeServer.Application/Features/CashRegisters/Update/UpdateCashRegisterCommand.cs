@@ -9,7 +9,7 @@ namespace eMuhasebeServer.Application.Features.CashRegisters.Update
     public sealed record UpdateCashRegisterCommand(
         Guid Id,
         string CashRegisterName,
-        int CashRegisterTypeValue)
+        int CurrencyTypeValue)
         : IRequest<Result<string>>;
 
     internal sealed class CreateCashRegisterCommandHandler(

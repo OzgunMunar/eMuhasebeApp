@@ -39,5 +39,21 @@ export const Menus: MenuModel[] = [
         isTitle: false,
         subMenus: [],
         isAdminOnly: true
-    }
+    },
+    {
+        name: "Kayıtlar",
+        icon: "",
+        url: "",
+        isTitle: true,
+        subMenus: [],
+        isAdminOnly: false
+    },
+    {
+        name: "Kasalar",
+        icon: "fa-solid fa-cash-register",
+        url: "/cashregisters",
+        isTitle: false,
+        subMenus: [],
+        isAdminOnly: true
+    },
 ]

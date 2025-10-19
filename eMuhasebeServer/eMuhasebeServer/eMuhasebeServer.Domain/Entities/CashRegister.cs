@@ -9,6 +9,6 @@ namespace eMuhasebeServer.Domain.Entities
         public CurrencyTypeEnum CurrencyType { get; set; } = CurrencyTypeEnum.TL;
         public decimal CashDepositAmount { get; set; }  // Giriş Rakamı
         public decimal CashWithdrawalAmount { get; set; }  // Çıkış Rakamı
-        public decimal BalanceAmount { get; set; }  // Bakiye Rakamı
+        public List<CashRegisterDetail>? CashRegisterDetails { get; set; }
     }
 }

@@ -22,16 +22,15 @@ namespace eMuhasebeServer.Application.Mapping
             CreateMap<UpdateCompanyCommand, Company>();
 
             CreateMap<CreateCashRegisterCommand, CashRegister>()
-                .ForMember(member => member.CurrencyType, options =>
+                .ForMember(member => member.CurrencyType, option =>
                 {
-                    options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CashRegisterTypeValue));
+                    option.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
                 });
             CreateMap<UpdateCashRegisterCommand, CashRegister>()
-                .ForMember(member => member.CurrencyType, options =>
+                .ForMember(member => member.CurrencyType, option =>
                 {
-                    options.MapFrom(map => CurrencyTypeEnum.FromValue(map.CashRegisterTypeValue));
+                    option.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
                 });
-
 
         }
     }
