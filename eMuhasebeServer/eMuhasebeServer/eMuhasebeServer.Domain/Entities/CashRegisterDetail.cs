@@ -10,6 +10,6 @@ namespace eMuhasebeServer.Domain.Entities
         public decimal CashDepositAmount { get; set; }  // Giriş Rakamı
         public decimal CashWithdrawalAmount { get; set; }  // Çıkış Rakamı
         public Guid? CashRegisterDetailId { get; set; }
-        public CashRegisterDetail? CashRegisterDetailOpposite { get; set; }
+        public Guid? BankDetailId { get; set; }
     }
 }

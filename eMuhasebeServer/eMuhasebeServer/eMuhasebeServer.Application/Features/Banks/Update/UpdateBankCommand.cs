@@ -9,7 +9,8 @@ namespace eMuhasebeServer.Application.Features.Banks.Update
     public sealed record UpdateBankCommand(
         Guid Id,
         string BankName,
-        string IBAN)
+        string IBAN,
+        int CurrencyTypeValue)
         : IRequest<Result<string>>;
 
     internal sealed class UpdateBankCommandHandler(
@@ -22,7 +23,7 @@ namespace eMuhasebeServer.Application.Features.Banks.Update
         {
 
             Bank? bank = await bankRepository
-                .GetByExpressionAsync(p => p.Id == request.Id, cancellationToken);
+                .GetByExpressionWithTrackingAsync(p => p.Id == request.Id, cancellationToken);
 
             if(bank is null)
             {

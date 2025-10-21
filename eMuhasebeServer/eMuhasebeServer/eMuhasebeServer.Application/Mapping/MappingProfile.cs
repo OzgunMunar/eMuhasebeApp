@@ -34,8 +34,16 @@ namespace eMuhasebeServer.Application.Mapping
                     option.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
                 });
 
-            CreateMap<CreateBankCommand, Bank>();
-            CreateMap<UpdateBankCommand, Bank>();
+            CreateMap<CreateBankCommand, Bank>()
+                .ForMember(member => member.CurrencyType, option =>
+                {
+                    option.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
+                });
+            CreateMap<UpdateBankCommand, Bank>()
+                .ForMember(member => member.CurrencyType, option =>
+                {
+                    option.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
+                });
 
         }
     }

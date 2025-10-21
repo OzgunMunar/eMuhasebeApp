@@ -50,7 +50,45 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("Banks");
+                    b.ToTable("Banks", (string)null);
+                });
+
+            modelBuilder.Entity("eMuhasebeServer.Domain.Entities.BankDetail", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("BankDepositAmount")
+                        .HasColumnType("money");
+
+                    b.Property<Guid?>("BankDetailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BankId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("BankWithdrawalAmount")
+                        .HasColumnType("money");
+
+                    b.Property<Guid?>("CashRegisterDetailId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("OpenedDate")
+                        .HasColumnType("date");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BankId");
+
+                    b.ToTable("BankDetails", (string)null);
                 });
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CashRegister", b =>
@@ -77,7 +115,7 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 
                     b.HasKey("Id");
 
-                    b.ToTable("CashRegisters");
+                    b.ToTable("CashRegisters", (string)null);
                 });
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CashRegisterDetail", b =>
@@ -86,13 +124,13 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("BankDetailId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<decimal>("CashDepositAmount")
                         .HasColumnType("money");
 
                     b.Property<Guid?>("CashRegisterDetailId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CashRegisterDetailOppositeId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CashRegisterId")
@@ -113,26 +151,79 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CashRegisterDetailOppositeId");
-
                     b.HasIndex("CashRegisterId");
 
-                    b.ToTable("CashRegisterDetails");
+                    b.ToTable("CashRegisterDetails", (string)null);
+                });
+
+            modelBuilder.Entity("eMuhasebeServer.Domain.Entities.Customer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("DepositAmount")
+                        .HasColumnType("money");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxDepartment")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TaxNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Town")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("WithdrawalAmount")
+                        .HasColumnType("money");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Customers", (string)null);
+                });
+
+            modelBuilder.Entity("eMuhasebeServer.Domain.Entities.BankDetail", b =>
+                {
+                    b.HasOne("eMuhasebeServer.Domain.Entities.Bank", null)
+                        .WithMany("BankDetails")
+                        .HasForeignKey("BankId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CashRegisterDetail", b =>
                 {
-                    b.HasOne("eMuhasebeServer.Domain.Entities.CashRegisterDetail", "CashRegisterDetailOpposite")
-                        .WithMany()
-                        .HasForeignKey("CashRegisterDetailOppositeId");
-
                     b.HasOne("eMuhasebeServer.Domain.Entities.CashRegister", null)
                         .WithMany("CashRegisterDetails")
                         .HasForeignKey("CashRegisterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
 
-                    b.Navigation("CashRegisterDetailOpposite");
+            modelBuilder.Entity("eMuhasebeServer.Domain.Entities.Bank", b =>
+                {
+                    b.Navigation("BankDetails");
                 });
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CashRegister", b =>

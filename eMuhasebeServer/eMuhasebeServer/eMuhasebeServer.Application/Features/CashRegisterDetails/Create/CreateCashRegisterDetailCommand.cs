@@ -12,6 +12,7 @@ namespace eMuhasebeServer.Application.Features.CashRegisterDetails.Create
         int Type, // giriş mi çıkış mı: Type
         decimal Amount, 
         Guid? OppositeCashRegisterId,    // başka bir kasaya aktarımsa
+        Guid? OppositeBankId,
         decimal OppositeAmount,    // TL'den EUR'a gönderirsem şayet!
         string Description
 
@@ -22,6 +23,8 @@ namespace eMuhasebeServer.Application.Features.CashRegisterDetails.Create
         
         ICashRegisterRepository cashRegisterRepository,
         ICashRegisterDetailRepository cashRegisterDetailRepository,
+        IBankRepository bankRepository,
+        IBankDetailRepository bankDetailRepository,
         IUnitOfWorkCompany unitOfWorkCompany
         
         )
@@ -65,7 +68,7 @@ namespace eMuhasebeServer.Application.Features.CashRegisterDetails.Create
                     OpenedDate = request.OpenedDate,
                     CashDepositAmount = request.Type == 1 ? request.OppositeAmount : 0,
                     CashWithdrawalAmount = request.Type == 0 ? request.OppositeAmount : 0,
-                    CashRegisterDetailId = cashRegisterDetail.CashRegisterDetailId,
+                    CashRegisterDetailId = cashRegisterDetail.Id,
                     Description = request.Description,
                     CashRegisterId = (Guid)request.OppositeCashRegisterId
 
@@ -74,6 +77,34 @@ namespace eMuhasebeServer.Application.Features.CashRegisterDetails.Create
                 cashRegisterDetail.CashRegisterDetailId = oppositeCashRegisterDetail.Id;
 
                 await cashRegisterDetailRepository.AddAsync(oppositeCashRegisterDetail, cancellationToken);
+
+            }
+
+            if (request.OppositeBankId is not null)
+            {
+
+                Bank oppositeBank = await bankRepository
+                    .GetByExpressionWithTrackingAsync
+                    (p => p.Id == request.OppositeBankId, cancellationToken);
+
+                oppositeBank.BankDepositAmount += (request.Type == 1 ? request.OppositeAmount : 0);
+                oppositeBank.BankWithdrawalAmount += (request.Type == 0 ? request.OppositeAmount : 0);
+
+                BankDetail oppositeBankDetail = new()
+                {
+
+                    OpenedDate = request.OpenedDate,
+                    BankDepositAmount = request.Type == 1 ? request.OppositeAmount : 0,
+                    BankWithdrawalAmount = request.Type == 0 ? request.OppositeAmount : 0,
+                    CashRegisterDetailId = cashRegisterDetail.Id,
+                    Description = request.Description,
+                    BankId = (Guid)request.OppositeBankId
+
+                };
+
+                cashRegisterDetail.BankDetailId = oppositeBankDetail.Id;
+
+                await bankDetailRepository.AddAsync(oppositeBankDetail, cancellationToken);
 
             }
 

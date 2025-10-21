@@ -39,8 +39,17 @@ export const routes: Routes = [
                 ]
             },
             {
-                path: "cashregisters",
-                loadComponent: () => import("../app/components/cashregisters/cashregisters")
+                path: "banks",
+                children: [
+                    {
+                        path:"",
+                        loadComponent: () => import("../app/components/banks/banks")
+                    },
+                    {
+                        path:"details/:id",
+                        loadComponent: () => import("../app/components/bankdetails/bankdetails")
+                    }
+                ]
             }
         ]
     }

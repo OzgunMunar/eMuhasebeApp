@@ -1,3 +1,4 @@
+import { BankModel, initialBankModel } from "../../bankmodels/bank.model"
 import { CashRegisterModel, initialCashRegisterModel } from "../cashregister.model"
 
 export interface CashRegisterDetailsModel {
@@ -12,8 +13,11 @@ export interface CashRegisterDetailsModel {
     oppositeAmount: number,
     cashWithdrawalAmount: number,
     cashRegisterDetailId: string,
+    bankDetailId: string,
     oppositeCashRegisterId?: string | null,
+    oppositeBankId?: string | null,
     oppositeCashRegister: CashRegisterModel,
+    oppositeBank: BankModel,
     description: string,
 
 }
@@ -29,8 +33,11 @@ export const initialCashRegisterDetailsModel: CashRegisterDetailsModel = {
     cashDepositAmount: 0,
     cashWithdrawalAmount: 0,
     cashRegisterDetailId: "",
+    bankDetailId: "",
     oppositeCashRegisterId: "",
+    oppositeBankId: "",
     description: "",
     oppositeCashRegister: { ...initialCashRegisterModel },
+    oppositeBank: {...initialBankModel}
 
 }

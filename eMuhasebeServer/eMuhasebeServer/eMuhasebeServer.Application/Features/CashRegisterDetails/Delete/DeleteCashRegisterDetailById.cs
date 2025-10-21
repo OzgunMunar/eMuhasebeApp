@@ -10,6 +10,8 @@ namespace eMuhasebeServer.Application.Features.CashRegisterDetails.Delete
         : IRequest<Result<string>>;
 
     internal sealed class DeleteCashRegisterDetailByIdHandler(
+        IBankRepository bankRepository,
+        IBankDetailRepository bankDetailRepository,
         ICashRegisterRepository cashRegisterRepository,
         ICashRegisterDetailRepository cashRegisterDetailRepository,
         IUnitOfWorkCompany unitOfWorkCompany)
@@ -60,6 +62,32 @@ namespace eMuhasebeServer.Application.Features.CashRegisterDetails.Delete
                 oppositeCashRegister.CashWithdrawalAmount -= oppositeCashRegisterDetail.CashWithdrawalAmount;
 
                 cashRegisterDetailRepository.Delete(oppositeCashRegisterDetail);
+
+            }
+
+            if (cashRegisterDetail.BankDetailId != null)
+            {
+
+                BankDetail? oppositeBankDetail = await bankDetailRepository
+                    .GetByExpressionWithTrackingAsync(p => p.Id == cashRegisterDetail.BankDetailId, cancellationToken);
+
+                if (oppositeBankDetail == null)
+                {
+                    return Result<string>.Failure(404, "Opposite Bank Detail not found.");
+                }
+
+                Bank? oppositeBank = await bankRepository
+                    .GetByExpressionWithTrackingAsync(p => p.Id == oppositeBankDetail.BankId, cancellationToken);
+
+                if (oppositeBank == null)
+                {
+                    return Result<string>.Failure(404, "Opposite Bank not found.");
+                }
+
+                oppositeBank.BankDepositAmount -= oppositeBankDetail.BankDepositAmount;
+                oppositeBank.BankWithdrawalAmount -= oppositeBankDetail.BankWithdrawalAmount;
+
+                bankDetailRepository.Delete(oppositeBankDetail);
 
             }
 

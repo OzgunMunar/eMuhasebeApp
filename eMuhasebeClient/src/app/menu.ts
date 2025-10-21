@@ -56,4 +56,12 @@ export const Menus: MenuModel[] = [
         subMenus: [],
         isAdminOnly: true
     },
+    {
+        name: "Bankalar",
+        icon: "fa-solid fa-building-columns",
+        url: "/banks",
+        isTitle: false,
+        subMenus: [],
+        isAdminOnly: true
+    },
 ]

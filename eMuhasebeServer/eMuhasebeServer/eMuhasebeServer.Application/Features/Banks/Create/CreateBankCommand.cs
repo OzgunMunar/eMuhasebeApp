@@ -8,7 +8,8 @@ namespace eMuhasebeServer.Application.Features.Banks.Create
 {
     public sealed record CreateBankCommand(
         string BankName,
-        string IBAN)
+        string IBAN,
+        int CurrencyTypeValue)
         : IRequest<Result<string>>;
 
     internal sealed class CreateBankCommandHandler(

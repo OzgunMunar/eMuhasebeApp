@@ -1,6 +1,6 @@
-<app-blank pageName="{{ cashRegister().cashRegisterName }} Kasa Hareketi"
-    [routes]="['Kayıtlar', cashRegister().cashRegisterName + ' ' +  'Kasalar', ]">
-    <app-section sectionTitle="{{ cashRegister().cashRegisterName }} Kasa Hareketleri Listesi">
+<app-blank pageName="{{ bank().bankName }} Banka Hareketi"
+    [routes]="['Kayıtlar', bank().bankName + ' ' +  'Bankalar', ]">
+    <app-section sectionTitle="{{ bank().bankName }} Banka Hareketleri Listesi">
         <div class="form-group row">
             <div class="col-9">
                 <button class="btn btn-dark" data-toggle="modal" data-target="#createModal">
@@ -48,7 +48,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(data of cashRegister().cashRegisterDetails | cashRegisterDetailsPipe: search; track data){
+                    @for(data of bank().bankDetails | bankDetailsPipe: search; track data){
                     <tr>
                         <td style="text-decoration: underline;" class="text-bold">{{$index + 1}}</td>
                         <td>
@@ -56,8 +56,8 @@
                                 {{data.openedDate | date: "dd.MM.yyyy"}}
                             </span>
                         </td>
-                        <td>
-                            @if(data.cashRegisterDetailId || data.bankDetailId) {
+                        <td class="table-description">
+                            @if(data.bankDetailId || data.cashRegisterDetailId) {
                                 <span><i class="fa-solid fa-right-left text-success text-xs"></i></span>
                                 <span class="ml-2">{{data.description}}</span>
                             } @else {
@@ -66,11 +66,11 @@
                             }
 
                         </td>
-                        <td>{{data.cashDepositAmount | trCurrency:
-                            changeCurrencyNameToSymbol(cashRegister().currencyType.name):
+                        <td>{{data.bankDepositAmount | trCurrency:
+                            changeCurrencyNameToSymbol(bank().currencyType.name):
                             true}}</td>
-                        <td>{{data.cashWithdrawalAmount | trCurrency:
-                            changeCurrencyNameToSymbol(cashRegister().currencyType.name): true}}</td>
+                        <td>{{data.bankWithdrawalAmount | trCurrency:
+                            changeCurrencyNameToSymbol(bank().currencyType.name): true}}</td>
                         <td>
                             <button data-toggle="modal" data-target="#updateModal" (click)="get(data)"
                                 class="btn btn-outline-primary btn-sm mr-1">
@@ -93,7 +93,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title fs-5">Kasa Hareketi Ekleme Formu</h3>
+                <h3 class="modal-title fs-5">Banka Hareketi Ekleme Formu</h3>
                 <button type="button" #createModalCloseBtn class="btn btn-outline-danger" data-dismiss="modal">
                     <i class="fa-solid fa-x"></i>
                 </button>
@@ -142,8 +142,8 @@
                         <select name="recordType" class="form-control" [(ngModel)]="createModel().recordType">
 
                             <option [value]="0">Diğer</option>
-                            <option [value]="1">Kasa</option>
-                            <option [value]="2">Banka</option>
+                            <option [value]="1">Banka</option>
+                            <option [value]="2">Kasa</option>
 
                         </select>
 
@@ -156,10 +156,30 @@
 
                     <div class="form-group mt-2">
 
+                        <label>Banka</label>
+
+                        <select name="oppositeBankId" class="form-control"
+                            [(ngModel)]="createModel().oppositeBankId" (change)="setOppositeBank()">
+                            @for(data of banks(); track data)
+                            {
+                            <option [value]="data.id">{{data.bankName}}</option>
+                            }
+
+                        </select>
+
+                        <div class="invalid-feedback"></div>
+
+                    </div>
+                    }
+                    @if(createModel().recordType == 2)
+                    {
+
+                    <div class="form-group mt-2">
+
                         <label>Kasa</label>
 
                         <select name="oppositeCashRegisterId" class="form-control"
-                            [(ngModel)]="createModel().oppositeCashRegisterId" (change)="setOppositeCashRegister()">
+                            [(ngModel)]="createModel().oppositeCashRegisterId" (change)="setOppositeCash()">
                             @for(cash of cashRegisters(); track cash)
                             {
                             <option [value]="cash.id">{{cash.cashRegisterName}}</option>
@@ -170,8 +190,9 @@
                         <div class="invalid-feedback"></div>
 
                     </div>
+                    }
 
-                    @if(createModel().oppositeCashRegister.currencyType.value != cashRegister().currencyType.value)
+                    @if(createModel().oppositeBank.currencyType.value != bank().currencyType.value)
                     {
                     <div class="form-group mt-2">
                         <label>Karşı Tutar</label>
@@ -179,41 +200,6 @@
                             name="oppositeAmount">
                         <div class="invalid-feedback"></div>
                     </div>
-                    }
-
-                    }
-
-                    @if(createModel().recordType == 2)
-                    {
-
-                    <div class="form-group mt-2">
-
-                        <label>Banka</label>
-
-                        <select name="oppositeBankId" class="form-control"
-                            [(ngModel)]="createModel().oppositeBankId"
-                             (change)="setOppositeBank()">
-                            @for(bank of banks(); track bank)
-                            {
-                            <option [value]="bank.id">{{bank.bankName}}</option>
-                            }
-
-                        </select>
-
-                        <div class="invalid-feedback"></div>
-
-                    </div>
-
-                    @if(createModel().oppositeCashRegister.currencyType.value != cashRegister().currencyType.value)
-                    {
-                    <div class="form-group mt-2">
-                        <label>Karşı Tutar</label>
-                        <input type="text" [(ngModel)]="createModel().oppositeAmount" class="form-control"
-                            name="oppositeAmount">
-                        <div class="invalid-feedback"></div>
-                    </div>
-                    }
-
                     }
 
                     <div class="form-group mt-2">
@@ -239,7 +225,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h3 class="modal-title fs-5">Kasa Güncelleme Formu</h3>
+                <h3 class="modal-title fs-5">Banka Güncelleme Formu</h3>
                 <button type="button" #updateModalCloseBtn class="btn btn-outline-danger" data-dismiss="modal">
                     <i class="fa-solid fa-x"></i>
                 </button>

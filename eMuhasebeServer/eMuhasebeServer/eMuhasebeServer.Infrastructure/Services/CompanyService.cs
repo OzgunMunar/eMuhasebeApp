@@ -15,6 +15,7 @@ namespace eMuhasebeServer.Infrastructure.Services
                 CompanyDbContext context = new(company);
 
                 context.Database.Migrate();
+                
             }
 
         }
