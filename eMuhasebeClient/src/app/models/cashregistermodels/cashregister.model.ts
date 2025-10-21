@@ -1,4 +1,4 @@
-import { CurrencyTypeModel, initialCurrencyTypeModel } from "../commonmodels/currency-type.model"
+import { TypeModel, initialTypeModel } from "../commonmodels/smartenum-type.model"
 import { CashRegisterDetailsModel } from "./cashregisterdetailsmodel/cashregisterdetails.model"
 
 export interface CashRegisterModel {
@@ -7,7 +7,7 @@ export interface CashRegisterModel {
     cashRegisterName: string,
     cashDepositAmount: number,
     cashWithdrawalAmount: number,
-    currencyType: CurrencyTypeModel,
+    currencyType: TypeModel,
     currencyTypeValue: number,
     cashRegisterDetails: CashRegisterDetailsModel[]
 }
@@ -17,7 +17,7 @@ export const initialCashRegisterModel : CashRegisterModel = {
     cashRegisterName: "",
     cashDepositAmount: 0,
     cashWithdrawalAmount: 0,
-    currencyType: { ...initialCurrencyTypeModel },
+    currencyType: { ...initialTypeModel },
     currencyTypeValue: 1,
     cashRegisterDetails: []
 }

@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
 import { SharedModule } from '../../modules/shared.module';
 import { BankPipe } from '../../pipes/bank-pipe';
 import { BankModel, initialBankModel } from '../../models/bankmodels/bank.model';
-import { CurrencyTypes } from '../../models/commonmodels/currency-type.model';
+import { CurrencyTypes } from '../../models/commonmodels/smartenum-type.model';
 
 @Component({
 

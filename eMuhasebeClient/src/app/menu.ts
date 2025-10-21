@@ -64,4 +64,12 @@ export const Menus: MenuModel[] = [
         subMenus: [],
         isAdminOnly: true
     },
+    {
+        name: "Cariler",
+        icon: "fa-solid fa-handshake",
+        url: "/customers",
+        isTitle: false,
+        subMenus: [],
+        isAdminOnly: true
+    },
 ]

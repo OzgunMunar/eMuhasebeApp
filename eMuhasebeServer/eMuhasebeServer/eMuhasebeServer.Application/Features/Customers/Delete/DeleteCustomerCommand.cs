@@ -24,7 +24,7 @@ namespace eMuhasebeServer.Application.Features.Customers.Delete
                 return Result<string>.Failure(404, "Customer not found.");
             }
 
-            customer.IsDeleted = false;
+            customer.IsDeleted = true;
 
             await unitOfWorkCompany.SaveChangesAsync(cancellationToken);
 

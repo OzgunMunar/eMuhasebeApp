@@ -25,4 +25,8 @@
     <ProjectReference Include="..\eMuhasebeServer.Infrastructure\eMuhasebeServer.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\NewFolder\" />
+  </ItemGroup>
+
 </Project>

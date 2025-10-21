@@ -5,6 +5,8 @@ using eMuhasebeServer.Application.Features.CashRegisters.Create;
 using eMuhasebeServer.Application.Features.CashRegisters.Update;
 using eMuhasebeServer.Application.Features.Companies.Create;
 using eMuhasebeServer.Application.Features.Companies.Update;
+using eMuhasebeServer.Application.Features.Customers.Create;
+using eMuhasebeServer.Application.Features.Customers.Update;
 using eMuhasebeServer.Application.Features.Users.CreateUser;
 using eMuhasebeServer.Application.Features.Users.UpdateUser;
 using eMuhasebeServer.Domain.Entities;
@@ -43,6 +45,17 @@ namespace eMuhasebeServer.Application.Mapping
                 .ForMember(member => member.CurrencyType, option =>
                 {
                     option.MapFrom(map => CurrencyTypeEnum.FromValue(map.CurrencyTypeValue));
+                });
+
+            CreateMap<CreateCustomerCommand, Customer>()
+                .ForMember(member => member.Type, option =>
+                {
+                    option.MapFrom(map => CustomerTypeEnum.FromValue(map.TypeValue));
+                });
+            CreateMap<UpdateCustomerCommand, Customer>()
+                .ForMember(member => member.Type, option =>
+                {
+                    option.MapFrom(map => CustomerTypeEnum.FromValue(map.TypeValue));
                 });
 
         }

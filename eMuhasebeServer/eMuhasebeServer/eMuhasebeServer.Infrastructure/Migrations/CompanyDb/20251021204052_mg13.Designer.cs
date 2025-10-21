@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eMuhasebeServer.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using eMuhasebeServer.Infrastructure.Context;
 namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251021204052_mg13")]
+    partial class mg13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -225,8 +228,6 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CustomerId");
-
                     b.ToTable("CustomerDetails", (string)null);
                 });
 
@@ -248,15 +249,6 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CustomerDetail", b =>
-                {
-                    b.HasOne("eMuhasebeServer.Domain.Entities.Customer", null)
-                        .WithMany("Details")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.Bank", b =>
                 {
                     b.Navigation("BankDetails");
@@ -265,11 +257,6 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.CashRegister", b =>
                 {
                     b.Navigation("CashRegisterDetails");
-                });
-
-            modelBuilder.Entity("eMuhasebeServer.Domain.Entities.Customer", b =>
-                {
-                    b.Navigation("Details");
                 });
 #pragma warning restore 612, 618
         }

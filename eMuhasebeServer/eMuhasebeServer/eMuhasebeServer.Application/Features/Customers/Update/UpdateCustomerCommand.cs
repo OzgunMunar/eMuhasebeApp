@@ -10,8 +10,6 @@ namespace eMuhasebeServer.Application.Features.Customers.Update
         Guid Id,
         string Name,
         int TypeValue,
-        string City,
-        string Town,
         string FullAddress,
         string TaxDepartment,
         string TaxNumber)

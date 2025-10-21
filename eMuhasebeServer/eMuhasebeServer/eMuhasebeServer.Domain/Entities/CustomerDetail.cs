@@ -1,0 +1,15 @@
+﻿using eMuhasebeServer.Domain.Abstractions;
+using eMuhasebeServer.Domain.Enum;
+
+namespace eMuhasebeServer.Domain.Entities
+{
+    public sealed class CustomerDetail : Entity
+    {
+        public Guid CustomerId { get; set; }
+        public DateOnly Date { get; set; }
+        public CustomerDetailTypeEnum Type { get; set; } = CustomerDetailTypeEnum.CashRegister;
+        public string Description { get; set; } = string.Empty;
+        public decimal DepositAmount { get; set; }  // Giriş Rakamı
+        public decimal WithdrawalAmount { get; set; }  // Çıkış Rakamı
+    }
+}

@@ -1,11 +1,11 @@
-import { CurrencyTypeModel, initialCurrencyTypeModel } from "../commonmodels/currency-type.model"
+import { TypeModel, initialTypeModel } from "../commonmodels/smartenum-type.model"
 import { BankDetailsModel } from "./bankdetailmodel/bankdetail.model"
 
 export interface BankModel {
     id: string,
     bankName: string,
     iban: string,
-    currencyType: CurrencyTypeModel,
+    currencyType: TypeModel,
     currencyTypeValue: number,
     bankDepositAmount: number,
     bankWithdrawalAmount: number,
@@ -18,7 +18,7 @@ export const initialBankModel: BankModel = {
     iban: "",
     bankDepositAmount: 0,
     bankWithdrawalAmount: 0,
-    currencyType: { ...initialCurrencyTypeModel },
+    currencyType: { ...initialTypeModel },
     currencyTypeValue: 1,
     bankDetails: []
 }

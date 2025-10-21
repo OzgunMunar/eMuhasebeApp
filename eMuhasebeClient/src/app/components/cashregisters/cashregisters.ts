@@ -5,7 +5,7 @@ import { CashRegisterModel, initialCashRegisterModel } from '../../models/cashre
 import { HttpService } from '../../services/http.service';
 import { SwalService } from '../../services/swal.service';
 import { NgForm } from '@angular/forms';
-import { CurrencyTypes } from '../../models/commonmodels/currency-type.model';
+import { CurrencyTypes } from '../../models/commonmodels/smartenum-type.model';
 import { RouterLink } from '@angular/router';
 
 @Component({

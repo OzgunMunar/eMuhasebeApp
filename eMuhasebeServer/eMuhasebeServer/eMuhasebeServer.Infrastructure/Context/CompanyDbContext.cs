@@ -15,6 +15,7 @@ namespace eMuhasebeServer.Infrastructure.Context
         public DbSet<Bank> Banks { get; set; }
         public DbSet<BankDetail> BankDetails { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<CustomerDetail> CustomerDetails { get; set; }
 
         #region Connection Part
 
@@ -72,6 +73,7 @@ namespace eMuhasebeServer.Infrastructure.Context
             modelBuilder.Entity<Bank>().ToTable("Banks");
             modelBuilder.Entity<BankDetail>().ToTable("BankDetails");
             modelBuilder.Entity<Customer>().ToTable("Customers");
+            modelBuilder.Entity<CustomerDetail>().ToTable("CustomerDetails");
 
             #endregion
 
@@ -118,6 +120,16 @@ namespace eMuhasebeServer.Infrastructure.Context
             modelBuilder.Entity<Customer>().Property(p => p.Type)
                 .HasConversion(type => type.Value, value => CustomerTypeEnum.FromValue(value));
             modelBuilder.Entity<Customer>().HasQueryFilter(filter => !filter.IsDeleted);
+
+            #endregion
+
+            #region CustomerDetails ModelBuilder
+
+            modelBuilder.Entity<CustomerDetail>().Property(p => p.DepositAmount).HasColumnType("money");
+            modelBuilder.Entity<CustomerDetail>().Property(p => p.WithdrawalAmount).HasColumnType("money");
+            modelBuilder.Entity<CustomerDetail>().Property(p => p.Type)
+                .HasConversion(type => type.Value, value => CustomerDetailTypeEnum.FromValue(value));
+            modelBuilder.Entity<CustomerDetail>().HasQueryFilter(filter => !filter.IsDeleted);
 
             #endregion
 

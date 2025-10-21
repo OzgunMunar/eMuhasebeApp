@@ -9,8 +9,6 @@ namespace eMuhasebeServer.Application.Features.Customers.Create
     public sealed record CreateCustomerCommand(
         string Name,
         int TypeValue,
-        string City,
-        string Town,
         string FullAddress,
         string TaxDepartment,
         string TaxNumber)
