@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using eMuhasebeServer.Domain.Entities;
+using eMuhasebeServer.Domain.Enum;
 using eMuhasebeServer.Domain.Repositories;
 using MediatR;
 using TS.Result;
@@ -14,6 +15,7 @@ namespace eMuhasebeServer.Application.Features.BankDetails.Create
         decimal Amount,
         Guid? OppositeBankId,    // başka bir kasaya aktarımsa
         Guid? OppositeCashRegisterId,
+        Guid? OppositeCustomerId,
         decimal OppositeAmount,    // TL'den EUR'a gönderirsem, type değişirse şayet
         string Description
         )
@@ -25,6 +27,8 @@ namespace eMuhasebeServer.Application.Features.BankDetails.Create
         IBankDetailRepository bankDetailRepository,
         ICashRegisterRepository cashRegisterRepository,
         ICashRegisterDetailRepository cashRegisterDetailRepository,
+        ICustomerDetailRepository customerDetailRepository,
+        ICustomerRepository customerRepository,
         IUnitOfWorkCompany unitOfWorkCompany
         
         )
@@ -105,6 +109,36 @@ namespace eMuhasebeServer.Application.Features.BankDetails.Create
                 bankDetail.CashRegisterDetailId = oppositeCashRegisterDetail.Id;
 
                 await cashRegisterDetailRepository.AddAsync(oppositeCashRegisterDetail, cancellationToken);
+
+            }
+
+            if (request.OppositeCustomerId is not null)
+            {
+                Customer? customer = await customerRepository
+                    .GetByExpressionWithTrackingAsync(p => p.Id == request.OppositeCustomerId, cancellationToken);
+
+                if(customer is null)
+                {
+                    return Result<string>.Failure(404, "Customer not found.");
+                }
+
+                customer.DepositAmount += request.Type == 1 ? request.Amount : 0;
+                customer.WithdrawalAmount += request.Type == 0 ? request.Amount : 0;
+
+                CustomerDetail customerDetail = new()
+                {
+                    CustomerId = customer.Id,
+                    BankDetailId = bankDetail.Id,
+                    Date = request.OpenedDate,
+                    Description = request.Description,
+                    DepositAmount = request.Type == 1 ? request.Amount : 0,
+                    WithdrawalAmount = request.Type == 0 ? request.Amount : 0,
+                    Type = CustomerDetailTypeEnum.Bank
+                };
+
+                bankDetail.CustomerDetailId = customerDetail.Id;
+
+                await customerDetailRepository.AddAsync(customerDetail, cancellationToken);
 
             }
 

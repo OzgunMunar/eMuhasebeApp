@@ -10,6 +10,7 @@ import { CashRegisterDetailsPipe } from '../../pipes/cashregisterdetails-pipe';
 import { SharedModule } from '../../modules/shared.module';
 import { DatePipe } from '@angular/common';
 import { BankModel } from '../../models/bankmodels/bank.model';
+import { CustomerModel } from '../../models/customermodels/customer.model';
 
 @Component({
   selector: 'app-cashregisterdetails',
@@ -31,6 +32,7 @@ export default class Cashregisterdetails {
   readonly cashRegister = signal<CashRegisterModel>({ ...initialCashRegisterModel })
   readonly cashRegisters = signal<CashRegisterModel[]>([])
   readonly banks = signal<BankModel[]>([])
+  readonly customers = signal<CustomerModel[]>([])
 
   readonly cashRegisterId = signal<string>("")
   readonly startDate = signal<string>("")
@@ -61,6 +63,7 @@ export default class Cashregisterdetails {
     this.getAll()
     this.getAllCashRegisters()
     this.getAllBanks()
+    this.getAllCustomers()
 
     this.createModel.set({
       ...this.createModel(),
@@ -96,6 +99,12 @@ export default class Cashregisterdetails {
     });
   }
 
+  getAllCustomers() {
+    this.#http.post<CustomerModel[]>("Customer/GetAll", {}, (res) => {
+      this.customers.set(res)
+    });
+  }
+
   create(form: NgForm) {
 
     if (form.valid) {
@@ -111,21 +120,32 @@ export default class Cashregisterdetails {
         this.createModel.set({
           ...this.createModel(),
           oppositeBankId: null,
-          oppositeCashRegisterId: null
+          oppositeCashRegisterId: null,
+          oppositeCustomerId: null
         })
 
       } else if (this.createModel().recordType == 1) {
 
         this.createModel.set({
           ...this.createModel(),
-          oppositeBankId: null
+          oppositeBankId: null,
+          oppositeCustomerId: null
         })
 
       } else if (this.createModel().recordType == 2) {
 
         this.createModel.set({
           ...this.createModel(),
-          oppositeCashRegisterId: null
+          oppositeCashRegisterId: null,
+          oppositeCustomerId: null
+        })
+
+      } else if (this.createModel().recordType == 3) {
+
+        this.createModel.set({
+          ...this.createModel(),
+          oppositeCashRegisterId: null,
+          oppositeBankId: null,
         })
 
       }
@@ -148,7 +168,7 @@ export default class Cashregisterdetails {
     }
 
   }
-// dk24 
+
   deleteById(model: CashRegisterDetailsModel) {
 
     this.#swal.callSwal("Kasa Hareketini Sil?", `${model.openedDate} tarihteki ${model.description} kasa hareketini silmek istiyor musunuz?`, () => {

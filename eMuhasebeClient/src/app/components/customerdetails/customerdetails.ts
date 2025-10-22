@@ -53,6 +53,7 @@ export default class Customerdetails {
       },
       (res) => {
         this.customer.set(res)
+        console.log(this.customer())
       })
 
   }

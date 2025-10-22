@@ -10,8 +10,10 @@ import { SharedModule } from '../../modules/shared.module';
 import { DatePipe } from '@angular/common';
 import { BankModel, initialBankModel } from '../../models/bankmodels/bank.model';
 import { CashRegisterModel } from '../../models/cashregistermodels/cashregister.model';
+import { CustomerModel } from '../../models/customermodels/customer.model';
 
 @Component({
+
   selector: 'app-bankdetails',
   imports: [
     SharedModule,
@@ -24,6 +26,7 @@ import { CashRegisterModel } from '../../models/cashregistermodels/cashregister.
   ],
   templateUrl: './bankdetails.html',
   styleUrl: './bankdetails.css'
+
 })
 
 export default class BankDetails {
@@ -31,6 +34,8 @@ export default class BankDetails {
   readonly bank = signal<BankModel>({ ...initialBankModel })
   readonly banks = signal<BankModel[]>([])
   readonly cashRegisters = signal<CashRegisterModel[]>([])
+  readonly customers = signal<CustomerModel[]>([])
+
   readonly bankId = signal<string>("")
   readonly startDate = signal<string>("")
   readonly endDate = signal<string>("")
@@ -60,6 +65,7 @@ export default class BankDetails {
     this.getAll()
     this.getAllBanks()
     this.getAllCashRegisters()
+    this.getAllCustomers()
 
     this.createModel.set({
       ...this.createModel(),
@@ -95,6 +101,12 @@ export default class BankDetails {
     });
   }
 
+  getAllCustomers() {
+    this.#http.post<CustomerModel[]>("Customer/GetAll", {}, (res) => {
+      this.customers.set(res)
+    });
+  }
+
   create(form: NgForm) {
 
     if (form.valid) {
@@ -110,14 +122,16 @@ export default class BankDetails {
         this.createModel.set({
           ...this.createModel(),
           oppositeBankId: null,
-          oppositeCashRegisterId: null
+          oppositeCashRegisterId: null,
+          oppositeCustomerId: null
         })
 
       } else if (this.createModel().recordType == 1) {
 
         this.createModel.set({
           ...this.createModel(),
-          oppositeCashRegisterId: null
+          oppositeCashRegisterId: null,
+          oppositeCustomerId: null
         })
 
       } else if (this.createModel().recordType == 2) {
@@ -125,6 +139,14 @@ export default class BankDetails {
         this.createModel.set({
           ...this.createModel(),
           oppositeBankId: null
+        })
+
+      } else if (this.createModel().recordType == 3) {
+
+        this.createModel.set({
+          ...this.createModel(),
+          oppositeBankId: null,
+          oppositeCashRegisterId: null
         })
 
       }

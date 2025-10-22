@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eMuhasebeServer.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using eMuhasebeServer.Infrastructure.Context;
 namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251022080049_mg15")]
+    partial class mg15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -142,9 +145,6 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                     b.Property<decimal>("CashWithdrawalAmount")
                         .HasColumnType("money");
 
-                    b.Property<Guid?>("CustomerDetailId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -208,9 +208,6 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("BankDetailId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("CashRegisterDetailId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("CustomerId")

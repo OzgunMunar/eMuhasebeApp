@@ -8,16 +8,20 @@ export interface CustomerDetailsModel {
     date: string,
     depositAmount: number,
     withdrawalAmount: number,
-    description: string
+    description: string,
+    bankDetailId: string,
+    cashRegisterDetailId: string
 
 }
 
 export const initialCustomerDetailsModel : CustomerDetailsModel = {
     id: "",
-    type: {...initialTypeModel},
+    type: { ...initialTypeModel },
     typeValue: 1,
     date: "",
     depositAmount: 0,
     withdrawalAmount: 0,
-    description: ""
+    description: "",
+    bankDetailId: "",
+    cashRegisterDetailId: ""
 }

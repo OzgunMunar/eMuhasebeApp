@@ -11,8 +11,10 @@ export interface BankDetailsModel {
     bankDepositAmount: number,
     bankWithdrawalAmount: number,
     bankDetailId: string,
+    customerDetailId: string | null,
     oppositeBankId?: string | null,
     oppositeCashRegisterId?: string | null,
+    oppositeCustomerId?: string | null,
     cashRegisterDetailId: string,
     oppositeBank: BankModel,
     oppositeCash: CashRegisterModel,
@@ -34,9 +36,10 @@ export const initialBankDetailsModel: BankDetailsModel = {
     oppositeBankId: "",
     oppositeCashRegisterId: "",
     cashRegisterDetailId: "",
-    oppositeBank: {...initialBankModel},
-    oppositeCash: {...initialCashRegisterModel},
+    oppositeBank: { ...initialBankModel },
+    oppositeCash: { ...initialCashRegisterModel },
     description: "",
     oppositeAmount: 0,
-    recordType: 0
+    recordType: 0,
+    customerDetailId: ""
 }

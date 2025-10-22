@@ -1,6 +1,7 @@
 ﻿using eMuhasebeServer.Domain.Entities;
 using eMuhasebeServer.Domain.Repositories;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TS.Result;
 
 namespace eMuhasebeServer.Application.Features.CustomerDetails.GetAll
@@ -17,7 +18,9 @@ namespace eMuhasebeServer.Application.Features.CustomerDetails.GetAll
         {
 
             Customer? customer = await customerRepository
-                .GetByExpressionAsync(p => p.Id == request.CustomerId, cancellationToken);
+                .Where(p => p.Id == request.CustomerId)
+                .Include(p => p.Details!)
+                .FirstOrDefaultAsync(cancellationToken);
 
             if(customer is null)
             {

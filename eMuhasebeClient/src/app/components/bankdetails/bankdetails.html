@@ -57,12 +57,12 @@
                             </span>
                         </td>
                         <td class="table-description">
-                            @if(data.bankDetailId || data.cashRegisterDetailId) {
-                                <span><i class="fa-solid fa-right-left text-success text-xs"></i></span>
-                                <span class="ml-2">{{data.description}}</span>
+                            @if(data.bankDetailId || data.cashRegisterDetailId || data.customerDetailId) {
+                            <span><i class="fa-solid fa-right-left text-success text-xs"></i></span>
+                            <span class="ml-2">{{data.description}}</span>
                             } @else {
-                                <span><i class="fa-solid fa-repeat text-success text-xs"></i></span>
-                                <span class="ml-2">{{data.description}}</span>
+                            <span><i class="fa-solid fa-repeat text-success text-xs"></i></span>
+                            <span class="ml-2">{{data.description}}</span>
                             }
 
                         </td>
@@ -144,6 +144,7 @@
                             <option [value]="0">Diğer</option>
                             <option [value]="1">Banka</option>
                             <option [value]="2">Kasa</option>
+                            <option [value]="3">Cari</option>
 
                         </select>
 
@@ -158,8 +159,8 @@
 
                         <label>Banka</label>
 
-                        <select name="oppositeBankId" class="form-control"
-                            [(ngModel)]="createModel().oppositeBankId" (change)="setOppositeBank()">
+                        <select name="oppositeBankId" class="form-control" [(ngModel)]="createModel().oppositeBankId"
+                            (change)="setOppositeBank()">
                             @for(data of banks(); track data)
                             {
                             <option [value]="data.id">{{data.bankName}}</option>
@@ -170,6 +171,15 @@
                         <div class="invalid-feedback"></div>
 
                     </div>
+
+                    @if(createModel().oppositeBank.currencyType.value != bank().currencyType.value){
+                    <div class="form-group mt-2">
+                        <label>Karşı Tutar</label>
+                        <input type="text" required [(ngModel)]="createModel().oppositeAmount" class="form-control"
+                            name="oppositeAmount">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    }
                     }
                     @if(createModel().recordType == 2)
                     {
@@ -190,7 +200,6 @@
                         <div class="invalid-feedback"></div>
 
                     </div>
-                    }
 
                     @if(createModel().oppositeBank.currencyType.value != bank().currencyType.value)
                     {
@@ -200,6 +209,37 @@
                             name="oppositeAmount">
                         <div class="invalid-feedback"></div>
                     </div>
+                    }
+                    }
+
+                    @if(createModel().recordType == 3)
+                    {
+
+                    <div class="form-group mt-2">
+
+                        <label>Cari(Müşteri)</label>
+
+                        <select name="oppositeCustomerId" class="form-control"
+                            [(ngModel)]="createModel().oppositeCustomerId">
+                            @for(customer of customers(); track customer)
+                            {
+                            <option [value]="customer.id">{{customer.name}}</option>
+                            }
+
+                        </select>
+
+                        <div class="invalid-feedback"></div>
+
+                    </div>
+                    @if(1 != bank().currencyType.value)
+                    {
+                    <div class="form-group mt-2">
+                        <label>Karşı Tutar</label>
+                        <input type="text" required [(ngModel)]="createModel().oppositeAmount" class="form-control"
+                            name="oppositeAmount">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    }
                     }
 
                     <div class="form-group mt-2">

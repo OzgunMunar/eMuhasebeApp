@@ -57,12 +57,12 @@
                             </span>
                         </td>
                         <td>
-                            @if(data.cashRegisterDetailId || data.bankDetailId) {
-                                <span><i class="fa-solid fa-right-left text-success text-xs"></i></span>
-                                <span class="ml-2">{{data.description}}</span>
+                            @if(data.cashRegisterDetailId || data.bankDetailId || data.customerDetailId) {
+                            <span><i class="fa-solid fa-right-left text-success text-xs"></i></span>
+                            <span class="ml-2">{{data.description}}</span>
                             } @else {
-                                <span><i class="fa-solid fa-repeat text-success text-xs"></i></span>
-                                <span class="ml-2">{{data.description}}</span>
+                            <span><i class="fa-solid fa-repeat text-success text-xs"></i></span>
+                            <span class="ml-2">{{data.description}}</span>
                             }
 
                         </td>
@@ -144,6 +144,7 @@
                             <option [value]="0">Diğer</option>
                             <option [value]="1">Kasa</option>
                             <option [value]="2">Banka</option>
+                            <option [value]="2">Cari</option>
 
                         </select>
 
@@ -190,9 +191,8 @@
 
                         <label>Banka</label>
 
-                        <select name="oppositeBankId" class="form-control"
-                            [(ngModel)]="createModel().oppositeBankId"
-                             (change)="setOppositeBank()">
+                        <select name="oppositeBankId" class="form-control" [(ngModel)]="createModel().oppositeBankId"
+                            (change)="setOppositeBank()">
                             @for(bank of banks(); track bank)
                             {
                             <option [value]="bank.id">{{bank.bankName}}</option>
@@ -214,6 +214,36 @@
                     </div>
                     }
 
+                    }
+
+                    @if(createModel().recordType == 3)
+                    {
+
+                    <div class="form-group mt-2">
+
+                        <label>Cari(Müşteri)</label>
+
+                        <select name="oppositeCustomerId" class="form-control"
+                            [(ngModel)]="createModel().oppositeCustomerId">
+                            @for(customer of customers(); track customer)
+                            {
+                            <option [value]="customer.id">{{customer.name}}</option>
+                            }
+
+                        </select>
+
+                        <div class="invalid-feedback"></div>
+
+                    </div>
+                    @if(1 != cashRegister().currencyType.value)
+                    {
+                    <div class="form-group mt-2">
+                        <label>Karşı Tutar</label>
+                        <input type="text" required [(ngModel)]="createModel().oppositeAmount" class="form-control"
+                            name="oppositeAmount">
+                        <div class="invalid-feedback"></div>
+                    </div>
+                    }
                     }
 
                     <div class="form-group mt-2">
