@@ -16,6 +16,8 @@ namespace eMuhasebeServer.Infrastructure.Context
         public DbSet<BankDetail> BankDetails { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<CustomerDetail> CustomerDetails { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductDetail> ProductDetails { get; set; }
 
         #region Connection Part
 
@@ -74,6 +76,8 @@ namespace eMuhasebeServer.Infrastructure.Context
             modelBuilder.Entity<BankDetail>().ToTable("BankDetails");
             modelBuilder.Entity<Customer>().ToTable("Customers");
             modelBuilder.Entity<CustomerDetail>().ToTable("CustomerDetails");
+            modelBuilder.Entity<Product>().ToTable("Products");
+            modelBuilder.Entity<ProductDetail>().ToTable("ProductDetails");
 
             #endregion
 
@@ -130,6 +134,24 @@ namespace eMuhasebeServer.Infrastructure.Context
             modelBuilder.Entity<CustomerDetail>().Property(p => p.Type)
                 .HasConversion(type => type.Value, value => CustomerDetailTypeEnum.FromValue(value));
             modelBuilder.Entity<CustomerDetail>().HasQueryFilter(filter => !filter.IsDeleted);
+
+            #endregion
+
+            #region Products ModelBuilder
+            
+            modelBuilder.Entity<Product>().Property(p => p.Deposit).HasColumnType("decimal(7,2)");
+            modelBuilder.Entity<Product>().Property(p => p.Withdrawal).HasColumnType("decimal(7,2)");
+            
+            modelBuilder.Entity<Product>().HasQueryFilter(filter => !filter.IsDeleted);
+
+            #endregion
+
+            #region ProductDetail ModelBuilder
+
+            modelBuilder.Entity<ProductDetail>().Property(p => p.Deposit).HasColumnType("decimal(7,2)");
+            modelBuilder.Entity<ProductDetail>().Property(p => p.Withdrawal).HasColumnType("decimal(7,2)");
+            
+            modelBuilder.Entity<ProductDetail>().HasQueryFilter(filter => !filter.IsDeleted);
 
             #endregion
 

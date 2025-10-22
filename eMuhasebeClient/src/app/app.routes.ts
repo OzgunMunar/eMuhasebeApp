@@ -63,6 +63,19 @@ export const routes: Routes = [
                         loadComponent: () => import("../app/components/customerdetails/customerdetails")
                     }
                 ]
+            },
+            {
+                path: "products",
+                children: [
+                    {
+                        path:"",
+                        loadComponent: () => import("../app/components/products/products")
+                    },
+                    {
+                        path:"details/:id",
+                        loadComponent: () => import("../app/components/productdetails/productdetails")
+                    }
+                ]
             }
         ]
     }

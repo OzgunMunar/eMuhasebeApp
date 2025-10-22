@@ -72,4 +72,12 @@ export const Menus: MenuModel[] = [
         subMenus: [],
         isAdminOnly: true
     },
+    {
+        name: "Stoklar",
+        icon: "fa-solid fa-shapes",
+        url: "/products",
+        isTitle: false,
+        subMenus: [],
+        isAdminOnly: true
+    }
 ]
