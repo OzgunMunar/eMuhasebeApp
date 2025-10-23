@@ -63,7 +63,7 @@ export default class Invoices {
     this.#http.post<ProductModel[]>("Product/GetAll", {}, (res) => {
 
       this.products.set(res)
-      
+
     })
 
   }
@@ -106,7 +106,7 @@ export default class Invoices {
 
   deleteById(model: InvoiceModel) {
 
-    this.#swal.callSwal("Faturayı Sil?", `${model.invoiceNumber} verisini silmek istiyor musunuz?`, () => {
+    this.#swal.callSwal("Faturayı Sil?", `${model.invoiceNumber} numaralı ${model.customer.name} kişisine ait faturayı silmek istiyor musunuz?`, () => {
 
       this.#http.post<string>("Invoice/Delete", { id: model.id }, (res) => {
 
@@ -120,7 +120,14 @@ export default class Invoices {
   }
 
   get(model: InvoiceModel) {
-    this.updateModel.set({ ...model })
+
+    this.updateModel.set({...model})
+
+    this.updateModel.update(vals => ({
+      ...vals,
+      typeValue: vals.type.value
+    }))
+
   }
 
   update(form: NgForm) {
@@ -136,15 +143,12 @@ export default class Invoices {
 
         this.#http.post<string>("Invoice/Create", this.updateModel(), (res) => {
 
-          this.#swal.callToast(res)
-
-          this.createModalCloseBtn?.nativeElement.click()
           this.createModel.set({ ...initialInvoiceModel })
-
+          this.updateModalCloseBtn?.nativeElement.click()
+          this.getAll()
+          
         })
-
-        this.getAll()
-        this.#swal.callToast(res, "info");
+        this.#swal.callToast("Invoice successfully updated", "info");
 
       })
 
@@ -160,12 +164,9 @@ export default class Invoices {
       price: this.createModel().price,
       quantity: this.createModel().quantity,
       productId: this.createModel().productId,
-      product: this.products().find(p => p.id == this.createModel().productId) ?? {...initialProductModel}
+      product: this.products().find(p => p.id == this.createModel().productId) ?? { ...initialProductModel }
 
     }
-
-    console.log("detail:", detail)
-    console.log("createMode:", this.createModel())
 
     this.createModel.update(model => ({
 
@@ -179,11 +180,45 @@ export default class Invoices {
 
   }
 
+  addDetailForUpdate() {
+
+    const detail: InvoiceDetailModel = {
+
+      ...initialInvoiceDetailModel,
+      price: this.updateModel().price,
+      quantity: this.updateModel().quantity,
+      productId: this.updateModel().productId,
+      product: this.products().find(p => p.id == this.updateModel().productId) ?? { ...initialProductModel }
+
+    }
+
+    this.updateModel.update(model => ({
+
+      ...model,
+      productId: "",
+      quantity: 0,
+      price: 0,
+      details: [...model.details, detail]
+
+    }))
+
+
+  }
+
   removeItemByIndex(index: number) {
 
     // index'e göre filtreleyip, seçilen index numaralı kaydı dışarı alıyorum.
 
     this.createModel.update(model => ({
+      ...model,
+      details: model.details.filter((_, i) => i !== index)
+    }));
+
+  }
+
+  removeItemByIndexForUpdate(index: number) {
+
+    this.updateModel.update(model => ({
       ...model,
       details: model.details.filter((_, i) => i !== index)
     }));

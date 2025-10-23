@@ -52,7 +52,7 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
             #region Customer Kısmı
 
             Customer? customer = await customerRepository
-                .GetByExpressionWithTrackingAsync(p => p.Id == request.CustomerId, cancellationToken);
+                .GetByExpressionAsync(p => p.Id == request.CustomerId, cancellationToken);
 
             if (customer == null)
             {
