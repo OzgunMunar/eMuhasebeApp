@@ -7,6 +7,7 @@ using eMuhasebeServer.Application.Features.Companies.Create;
 using eMuhasebeServer.Application.Features.Companies.Update;
 using eMuhasebeServer.Application.Features.Customers.Create;
 using eMuhasebeServer.Application.Features.Customers.Update;
+using eMuhasebeServer.Application.Features.Invoices.Create;
 using eMuhasebeServer.Application.Features.Products.Create;
 using eMuhasebeServer.Application.Features.Products.Update;
 using eMuhasebeServer.Application.Features.Users.CreateUser;
@@ -62,6 +63,27 @@ namespace eMuhasebeServer.Application.Mapping
 
             CreateMap<CreateProductCommand, Product>();
             CreateMap<UpdateProductCommand, Product>();
+
+            CreateMap<CreateInvoiceCommand, Invoice>()
+                .ForMember(member => member.Type, options =>
+                {
+                    options.MapFrom(map => InvoiceTypeEnum.FromValue(map.TypeValue));
+                })
+                .ForMember(member => member.Details, options =>
+                {
+                    // Fatura detaylarını InvoiceDetails içinde topladım.
+                    options.MapFrom(map => map.InvoiceDetails.Select(s => new InvoiceDetail()
+                    {
+                        ProductId = s.ProductId,
+                        Quantity = s.Quantity,
+                        Price = s.Price,
+                    }).ToList());
+                }).ForMember(member => member.Amount, options =>
+                {
+                    // Ürünleri fiyatları ile çarptım ki faturada gösterebileyim.
+                    options.MapFrom(map => map.InvoiceDetails.Sum(s => s.Quantity * s.Price));
+                });
+            //CreateMap<UpdateInvoiceCommand, Invoice>();
 
         }
     }

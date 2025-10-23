@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using eMuhasebeServer.Infrastructure.Context;
 
@@ -11,9 +12,11 @@ using eMuhasebeServer.Infrastructure.Context;
 namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 {
     [DbContext(typeof(CompanyDbContext))]
-    partial class CompanyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251022121019_mg21")]
+    partial class mg21
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -226,9 +229,6 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("InvoiceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -345,9 +345,6 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("InvoiceId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -405,7 +402,7 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.InvoiceDetail", b =>
                 {
                     b.HasOne("eMuhasebeServer.Domain.Entities.Invoice", null)
-                        .WithMany("Details")
+                        .WithMany("InvoiceDetails")
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -437,7 +434,7 @@ namespace eMuhasebeServer.Infrastructure.Migrations.CompanyDb
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.Invoice", b =>
                 {
-                    b.Navigation("Details");
+                    b.Navigation("InvoiceDetails");
                 });
 
             modelBuilder.Entity("eMuhasebeServer.Domain.Entities.Product", b =>

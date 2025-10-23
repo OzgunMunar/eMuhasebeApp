@@ -9,5 +9,6 @@ namespace eMuhasebeServer.Domain.Entities
         public string Description { get; set; } = string.Empty;
         public decimal Deposit { get; set; }
         public decimal Withdrawal { get; set; }
+        public Guid? InvoiceId { get; set; }
     }
 }

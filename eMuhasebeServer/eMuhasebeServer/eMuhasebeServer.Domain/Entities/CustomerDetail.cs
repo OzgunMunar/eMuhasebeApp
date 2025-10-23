@@ -13,5 +13,6 @@ namespace eMuhasebeServer.Domain.Entities
         public decimal WithdrawalAmount { get; set; }  // Çıkış Rakamı
         public Guid? BankDetailId { get; set; }
         public Guid? CashRegisterDetailId { get; set; }
+        public Guid? InvoiceId { get; set; }
     }
 }

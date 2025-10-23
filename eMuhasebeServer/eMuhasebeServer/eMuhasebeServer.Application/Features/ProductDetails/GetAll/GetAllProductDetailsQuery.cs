@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TS.Result;
 
-namespace eMuhasebeServer.Application.Features.ProductDetail.GetAll
+namespace eMuhasebeServer.Application.Features.ProductDetails.GetAll
 {
     public sealed record GetAllProductDetailsQuery(Guid Id)
         : IRequest<Result<Product>>;

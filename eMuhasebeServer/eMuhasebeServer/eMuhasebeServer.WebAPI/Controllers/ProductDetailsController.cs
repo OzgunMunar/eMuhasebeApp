@@ -1,5 +1,4 @@
-﻿using eMuhasebeServer.Application.Features.CustomerDetails.GetAll;
-using eMuhasebeServer.Application.Features.ProductDetail.GetAll;
+﻿using eMuhasebeServer.Application.Features.ProductDetails.GetAll;
 using eMuhasebeServer.WebAPI.Abstractions;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
