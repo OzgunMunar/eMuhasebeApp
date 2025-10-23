@@ -6,7 +6,7 @@ using TS.Result;
 
 namespace eMuhasebeServer.Application.Features.Invoices.GetAll
 {
-    public sealed record GetAllInvoicesQuery(int Type)
+    public sealed record GetAllInvoicesQuery()
         : IRequest<Result<List<Invoice>>>;
 
     internal sealed class GetAllInvoicesQueryHandler(
@@ -17,7 +17,10 @@ namespace eMuhasebeServer.Application.Features.Invoices.GetAll
         {
 
             List<Invoice> invoices = await invoiceRepository
-                .Where(p => p.Type == request.Type)
+                .GetAll()
+                .Include(p=> p.Customer)
+                .Include(p => p.Details!)
+                .ThenInclude(p => p.Product)
                 .OrderBy(p => p.Date)
                 .ToListAsync(cancellationToken);
 

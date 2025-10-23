@@ -10,7 +10,7 @@ namespace eMuhasebeServer.Application.Features.Invoices.Update
         DateOnly Date,
         string InvoiceNumber,
         Guid CustomerId,
-        List<InvoiceDetailDto> InvoiceDetails)
+        List<InvoiceDetailDto> Details)
     : IRequest<Result<string>>;
 
     internal sealed class UpdateInvoiceCommandHandler(

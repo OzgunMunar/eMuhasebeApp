@@ -72,7 +72,7 @@ namespace eMuhasebeServer.Application.Mapping
                 .ForMember(member => member.Details, options =>
                 {
                     // Fatura detaylarını InvoiceDetails içinde topladım.
-                    options.MapFrom(map => map.InvoiceDetails.Select(s => new InvoiceDetail()
+                    options.MapFrom(map => map.Details.Select(s => new InvoiceDetail()
                     {
                         ProductId = s.ProductId,
                         Quantity = s.Quantity,
@@ -81,7 +81,7 @@ namespace eMuhasebeServer.Application.Mapping
                 }).ForMember(member => member.Amount, options =>
                 {
                     // Ürünleri fiyatları ile çarptım ki faturada gösterebileyim.
-                    options.MapFrom(map => map.InvoiceDetails.Sum(s => s.Quantity * s.Price));
+                    options.MapFrom(map => map.Details.Sum(s => s.Quantity * s.Price));
                 });
             //CreateMap<UpdateInvoiceCommand, Invoice>();
 

@@ -4,17 +4,20 @@ using eMuhasebeServer.Domain.Entities;
 using eMuhasebeServer.Domain.Enum;
 using eMuhasebeServer.Domain.Repositories;
 using MediatR;
+using System.Text;
 using TS.Result;
 
 namespace eMuhasebeServer.Application.Features.Invoices.Create
 {
-    public sealed record CreateInvoiceCommand(
+    public sealed record class CreateInvoiceCommand(
+
         int TypeValue,
         DateOnly Date,
         string InvoiceNumber,
         Guid CustomerId,
-        List<InvoiceDetailDto> InvoiceDetails)
-        : IRequest<Result<string>>;
+        List<InvoiceDetailDto> Details
+
+    ) : IRequest<Result<string>>;
 
     internal sealed class CreateInvoiceCommandHandler(
         IInvoiceRepository invoiceRepository,
@@ -31,7 +34,16 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
 
             #region Fatura ve Detay Kısmı
 
-            Invoice invoice = mapper.Map<Invoice>(request);
+            string dayOfToday = DateTime.Now.Day.ToString("D2");
+            string monthOfToday = DateTime.Now.Month.ToString("D2");
+            string yearOfToday = DateTime.Now.Year.ToString();
+            string lastEightCharactersOfRandomGuid = Guid.NewGuid().ToString("N")[^8..];
+
+            string invoiceNumber = $"{dayOfToday}{monthOfToday}{yearOfToday}-{lastEightCharactersOfRandomGuid}";
+
+            var updatedRequest = request with { InvoiceNumber = invoiceNumber };
+
+            Invoice invoice = mapper.Map<Invoice>(updatedRequest);
 
             await invoiceRepository.AddAsync(invoice, cancellationToken);
 
@@ -52,6 +64,8 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
             // üsttekinin tersi
             customer.WithdrawalAmount += request.TypeValue == 1 ? invoice.Amount : 0;
 
+            customerRepository.Update(customer);
+
             CustomerDetail customerDetail = new()
             {
                 CustomerId = customer.Id,
@@ -70,7 +84,7 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
 
             #region Product Kısmı
 
-            foreach (var item in request.InvoiceDetails)
+            foreach (var item in request.Details)
             {
 
                 Product product = await productRepository
@@ -78,6 +92,8 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
 
                 product.Deposit += request.TypeValue == 1 ? item.Quantity : 0;
                 product.Withdrawal += request.TypeValue == 2 ? item.Quantity : 0;
+
+                productRepository.Update(product);
 
                 ProductDetail productDetail = new()
                 {
@@ -91,7 +107,6 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
 
                 };
 
-                await productRepository.AddAsync(product, cancellationToken);
                 await productDetailRepository.AddAsync(productDetail, cancellationToken);
 
             }

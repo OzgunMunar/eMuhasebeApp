@@ -75,6 +75,7 @@ namespace eMuhasebeServer.Application.Features.Invoices.Delete
                 }
             }
 
+            invoiceRepository.Delete(invoice);
             productDetailRepository.DeleteRange(productDetails);
 
             await unitOfWorkCompany.SaveChangesAsync(cancellationToken);

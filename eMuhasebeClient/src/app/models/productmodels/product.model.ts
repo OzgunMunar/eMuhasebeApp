@@ -6,7 +6,7 @@ export interface ProductModel {
     name: string,
     deposit: number,
     withdrawal: number,
-    details: ProductDetailsModel[]
+    details: ProductDetailsModel[],
 
 }
 
@@ -15,5 +15,6 @@ export const initialProductModel: ProductModel = {
     name: "",
     deposit: 0,
     withdrawal: 0,
-    details: []
+    details: [],
+
 }

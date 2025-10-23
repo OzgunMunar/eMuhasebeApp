@@ -11,7 +11,7 @@ export const routes: Routes = [
     {
         path: "",
         loadComponent: () => import("../app/components/layouts/layouts"),
-        canActivateChild: [()=> inject(AuthService).isAuthenticated()],
+        canActivateChild: [() => inject(AuthService).isAuthenticated()],
         children: [
             {
                 path: "",
@@ -29,11 +29,11 @@ export const routes: Routes = [
                 path: "cashregisters",
                 children: [
                     {
-                        path:"",
+                        path: "",
                         loadComponent: () => import("../app/components/cashregisters/cashregisters")
                     },
                     {
-                        path:"details/:id",
+                        path: "details/:id",
                         loadComponent: () => import("../app/components/cashregisterdetails/cashregisterdetails")
                     }
                 ]
@@ -42,11 +42,11 @@ export const routes: Routes = [
                 path: "banks",
                 children: [
                     {
-                        path:"",
+                        path: "",
                         loadComponent: () => import("../app/components/banks/banks")
                     },
                     {
-                        path:"details/:id",
+                        path: "details/:id",
                         loadComponent: () => import("../app/components/bankdetails/bankdetails")
                     }
                 ]
@@ -55,11 +55,11 @@ export const routes: Routes = [
                 path: "customers",
                 children: [
                     {
-                        path:"",
+                        path: "",
                         loadComponent: () => import("../app/components/customers/customers")
                     },
                     {
-                        path:"details/:id",
+                        path: "details/:id",
                         loadComponent: () => import("../app/components/customerdetails/customerdetails")
                     }
                 ]
@@ -68,15 +68,19 @@ export const routes: Routes = [
                 path: "products",
                 children: [
                     {
-                        path:"",
+                        path: "",
                         loadComponent: () => import("../app/components/products/products")
                     },
                     {
-                        path:"details/:id",
+                        path: "details/:id",
                         loadComponent: () => import("../app/components/productdetails/productdetails")
                     }
                 ]
-            }
+            },
+            {
+                path: "invoices",
+                loadComponent: () => import("../app/components/invoices/invoices")
+            },
         ]
     }
 

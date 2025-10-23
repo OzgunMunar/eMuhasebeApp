@@ -64,3 +64,15 @@ export const CustomerDetailTypes: TypeModel[] = [
     }
 
 ]
+
+export const InvoiceTypes: TypeModel[] = 
+[
+    {
+        value: 1,
+        name: "Alış Faturası"
+    },
+    {
+        value: 2,
+        name: "Satış Faturası"
+    }
+]
