@@ -7,6 +7,7 @@ import { FlexiSelectModule } from 'flexi-select';
 import BlankComponent from '../components/blank/blank';
 import { Section } from '../components/section/section';
 import { FormValidateDirective } from 'form-validate-angular';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [    
@@ -19,7 +20,8 @@ import { FormValidateDirective } from 'form-validate-angular';
     TrCurrencyPipe,
     FlexiGridModule,
     FlexiSelectModule,
-    FormValidateDirective
+    FormValidateDirective,
+    NgxPaginationModule
   ],
   exports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { FormValidateDirective } from 'form-validate-angular';
     TrCurrencyPipe,
     FlexiGridModule,
     FlexiSelectModule,
-    FormValidateDirective
+    FormValidateDirective,
+    NgxPaginationModule
   ]
 })
 export class SharedModule { }

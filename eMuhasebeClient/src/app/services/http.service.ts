@@ -17,7 +17,7 @@ export class HttpService {
   ) { }
 
   get<T>(apiUrl:string, callBack:(res:T)=> void,errorCallBack?:()=> void ){    
-    this.http.post<ResultModel<T>>(`${api}/${apiUrl}`,{
+    this.http.get<ResultModel<T>>(`${api}/${apiUrl}`,{
       headers: {
         "Authorization": "Bearer " + this.auth.token
       }

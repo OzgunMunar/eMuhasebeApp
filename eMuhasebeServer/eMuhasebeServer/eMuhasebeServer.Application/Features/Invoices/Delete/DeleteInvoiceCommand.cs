@@ -68,8 +68,8 @@ namespace eMuhasebeServer.Application.Features.Invoices.Delete
 
                 if(product != null)
                 {
-                    product.Deposit -= invoice.Type.Value == 1 ? invoice.Amount : 0;
-                    product.Withdrawal -= invoice.Type.Value == 2 ? invoice.Amount : 0;
+                    product.Deposit -= detail.Deposit;
+                    product.Withdrawal -= detail.Withdrawal;
 
                     productRepository.Update(product);
                 }

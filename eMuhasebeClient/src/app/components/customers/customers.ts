@@ -27,6 +27,7 @@ export default class Customers {
   readonly updateModel = signal<CustomerModel>({ ...initialCustomerModel })
   search: string = ""
   customerTypes = CustomerTypes
+  p: number = 1
 
   @ViewChild("createModalCloseBtn") createModalCloseBtn: ElementRef<HTMLButtonElement> | undefined
   @ViewChild("updateModalCloseBtn") updateModalCloseBtn: ElementRef<HTMLButtonElement> | undefined

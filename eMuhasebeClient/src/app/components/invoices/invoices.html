@@ -26,7 +26,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(data of invoices() | invoicePipe: search; track data){
+                    @for(data of invoices() 
+                        | invoicePipe: search
+                        | paginate: { itemsPerPage: 10, currentPage: p }; track data){
                     <tr>
                         <td>{{$index + 1}}</td>
                         <td>{{data.type.name}}</td>
@@ -46,6 +48,11 @@
                     }
                 </tbody>
             </table>
+
+            <div class="text-center">
+                <pagination-controls nextLabel="Sonraki" previousLabel="Önceki" (pageChange)="p = $event"></pagination-controls>
+            </div>
+
         </div>
     </app-section>
 </app-blank>

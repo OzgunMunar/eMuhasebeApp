@@ -88,7 +88,7 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
             {
 
                 Product product = await productRepository
-                    .GetByExpressionWithTrackingAsync(p => p.Id == item.ProductId, cancellationToken);
+                    .GetByExpressionAsync(p => p.Id == item.ProductId, cancellationToken);
 
                 product.Deposit += request.TypeValue == 1 ? item.Quantity : 0;
                 product.Withdrawal += request.TypeValue == 2 ? item.Quantity : 0;

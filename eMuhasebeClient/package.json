@@ -35,6 +35,7 @@
     "flexi-toast": "^20.0.4",
     "form-validate-angular": "^20.0.0",
     "jwt-decode": "^4.0.0",
+    "ngx-pagination": "^6.0.3",
     "rxjs": "~7.8.0",
     "tr-currency": "^20.0.0",
     "tslib": "^2.3.0"

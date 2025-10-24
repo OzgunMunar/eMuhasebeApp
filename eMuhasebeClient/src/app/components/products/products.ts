@@ -24,6 +24,7 @@ export default class Products {
   readonly createModel = signal<ProductModel>({ ...initialProductModel })
   readonly updateModel = signal<ProductModel>({ ...initialProductModel })
   search: string = ""
+  p: number = 1
 
   @ViewChild("createModalCloseBtn") createModalCloseBtn: ElementRef<HTMLButtonElement> | undefined
   @ViewChild("updateModalCloseBtn") updateModalCloseBtn: ElementRef<HTMLButtonElement> | undefined

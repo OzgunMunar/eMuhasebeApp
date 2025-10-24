@@ -22,7 +22,7 @@ export default class Companies {
   readonly createModel = signal<CompanyModel>({ ...initialCompanyModel })
   readonly updateModel = signal<CompanyModel>({ ...initialCompanyModel })
   search: string = ""
-  // dk 7
+
   @ViewChild("createModalCloseBtn") createModalCloseBtn: ElementRef<HTMLButtonElement> | undefined
   @ViewChild("updateModalCloseBtn") updateModalCloseBtn: ElementRef<HTMLButtonElement> | undefined
 
@@ -101,6 +101,12 @@ export default class Companies {
 
     })
 
+  }
+
+  seedData() {
+    this.#http.get<string>("SeedData", (res) => {
+      this.#swal.callToast(res)
+    })
   }
 
 }

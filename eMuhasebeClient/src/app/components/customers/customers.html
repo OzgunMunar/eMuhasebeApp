@@ -30,7 +30,9 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for(data of customers() | customerPipe: search; track data){
+                    @for(data of customers() 
+                        | customerPipe: search
+                        | paginate: { itemsPerPage: 10, currentPage: p }; track data){
                     <tr>
                         <td>{{$index + 1}}</td>
                         <td>{{data.name}}</td>
@@ -59,10 +61,10 @@
                                 }}
                             </span>
                         </td>
-                        <td>
+                        <td class="d-flex">
                             <button class="btn btn-outline-dark btn-sm mr-1"
                                 routerLink="/customers/details/{{data.id}}">
-                                <i class="fa-solid fa-file-lines mr-1"></i>Detaylar
+                                <i class="fa-solid fa-file-lines mr-1"></i>
                             </button>
                             <button data-toggle="modal" data-target="#updateModal" (click)="get(data)"
                                 class="btn btn-outline-primary btn-sm mr-1">
@@ -76,6 +78,11 @@
                     }
                 </tbody>
             </table>
+
+            <div class="text-center">
+                <pagination-controls nextLabel="Sonraki" previousLabel="Önceki" (pageChange)="p = $event"></pagination-controls>
+            </div>
+
         </div>
 
     </app-section>
