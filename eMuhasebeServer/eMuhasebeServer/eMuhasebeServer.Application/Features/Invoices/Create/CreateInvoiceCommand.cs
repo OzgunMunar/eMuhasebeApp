@@ -103,7 +103,8 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
                     Description = invoice.InvoiceNumber + " Numaralı " + invoice.Type.Name,
                     Deposit = request.TypeValue == 1 ? item.Quantity : 0,
                     Withdrawal = request.TypeValue == 2 ? item.Quantity : 0,
-                    InvoiceId = invoice.Id
+                    InvoiceId = invoice.Id,
+                    Price = item.Price
 
                 };
 

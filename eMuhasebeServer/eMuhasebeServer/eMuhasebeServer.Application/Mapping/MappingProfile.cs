@@ -83,7 +83,6 @@ namespace eMuhasebeServer.Application.Mapping
                     // Ürünleri fiyatları ile çarptım ki faturada gösterebileyim.
                     options.MapFrom(map => map.Details.Sum(s => s.Quantity * s.Price));
                 });
-            //CreateMap<UpdateInvoiceCommand, Invoice>();
 
         }
     }

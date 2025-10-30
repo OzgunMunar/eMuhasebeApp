@@ -155,6 +155,7 @@ namespace eMuhasebeServer.Infrastructure.Context
 
             modelBuilder.Entity<ProductDetail>().Property(p => p.Deposit).HasColumnType("decimal(7,2)");
             modelBuilder.Entity<ProductDetail>().Property(p => p.Withdrawal).HasColumnType("decimal(7,2)");
+            modelBuilder.Entity<ProductDetail>().Property(p => p.Price).HasColumnType("money");
             
             modelBuilder.Entity<ProductDetail>().HasQueryFilter(filter => !filter.IsDeleted);
 

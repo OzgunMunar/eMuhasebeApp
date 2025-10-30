@@ -81,6 +81,15 @@ export const routes: Routes = [
                 path: "invoices",
                 loadComponent: () => import("../app/components/invoices/invoices")
             },
+            {
+                path: "reports",
+                children: [
+                    {
+                        path: "product-profitability-report",
+                        loadComponent: () => import("../app/components/product-profitability-report/product-profitability-report")
+                    }
+                ]
+            }
         ]
     }
 
