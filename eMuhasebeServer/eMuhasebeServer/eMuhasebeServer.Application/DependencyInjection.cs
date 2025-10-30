@@ -8,6 +8,9 @@ namespace eMuhasebeServer.Application
     {
         public static IServiceCollection AddApplication(this IServiceCollection services)
         {
+
+            services.AddSignalR();
+
             services.AddAutoMapper(typeof(DependencyInjection).Assembly);
 
             services.AddMediatR(conf =>

@@ -10,7 +10,7 @@ namespace eMuhasebeServer.Application.Features.Reports.PurchaseReports
 
     public sealed record PurchaseReportsQueryResponse
     {
-        public List<string> Months { get; set; } = [];
+        public List<DateOnly> Dates { get; set; } = [];
         public List<decimal> Amounts { get; set; } = [];
     }
 
@@ -22,28 +22,17 @@ namespace eMuhasebeServer.Application.Features.Reports.PurchaseReports
         {
 
             List<Invoice> invoices = await invoiceRepository
-                .Where(i => i.Type == 2)
-                .OrderBy(i => i.Date)
+                .Where(p => p.Type == 2)
+                .OrderBy(p => p.Date)
                 .ToListAsync(cancellationToken);
 
-            var groupedByMonth = invoices
-                .GroupBy(i => new { i.Date.Year, i.Date.Month })
-                .OrderBy(g => g.Key.Year)
-                .ThenBy(g => g.Key.Month)
-                .Select(g => new
-                {
-                    Month = new DateTime(g.Key.Year, g.Key.Month, 1).ToString("yyyy MMMM"),
-                    Total = g.Sum(x => x.Amount)
-                })
-                .ToList();
-
-            PurchaseReportsQueryResponse purchaseReportsQueryResponse = new()
+            PurchaseReportsQueryResponse response = new PurchaseReportsQueryResponse
             {
-                Months = groupedByMonth.Select(g => g.Month).ToList(),
-                Amounts = groupedByMonth.Select(g => g.Total).ToList()
+                Dates = invoices.GroupBy(group => group.Date).Select(s => s.Key).ToList(),
+                Amounts = invoices.GroupBy(group => group.Date).Select(s => s.Sum(s => s.Amount)).ToList()
             };
 
-            return purchaseReportsQueryResponse;
+            return response;
 
         }
     }

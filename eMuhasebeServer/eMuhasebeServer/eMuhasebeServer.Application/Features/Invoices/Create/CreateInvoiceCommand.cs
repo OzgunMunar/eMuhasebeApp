@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using eMuhasebeServer.Application.Hubs;
 using eMuhasebeServer.Domain.Dtos;
 using eMuhasebeServer.Domain.Entities;
 using eMuhasebeServer.Domain.Enum;
 using eMuhasebeServer.Domain.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.SignalR;
 using System.Text;
 using TS.Result;
 
@@ -26,7 +28,8 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
         ICustomerRepository customerRepository,
         ICustomerDetailRepository customerDetailRepository,
         IUnitOfWorkCompany unitOfWorkCompany,
-        IMapper mapper)
+        IMapper mapper,
+        IHubContext<ReportHub> hubContext)
         : IRequestHandler<CreateInvoiceCommand, Result<string>>
     {
         public async Task<Result<string>> Handle(CreateInvoiceCommand request, CancellationToken cancellationToken)
@@ -115,6 +118,15 @@ namespace eMuhasebeServer.Application.Features.Invoices.Create
             #endregion
 
             await unitOfWorkCompany.SaveChangesAsync(cancellationToken);
+
+            if(invoice.Type == InvoiceTypeEnum.Selling)
+            {
+                await hubContext.Clients.All.SendAsync("PurchaseReports", new 
+                {
+                    date = invoice.Date,
+                    amount = invoice.Amount,
+                });
+            }
 
             return Result<string>.Succeed("Invoice successfully created.");
 

@@ -1,10 +1,10 @@
 export interface PurchaseReportModel {
-    months: string[],
+    dates: string[],
     amounts: number[]
 }
 
 
 export const initialPurchaseReportModel: PurchaseReportModel = {
-    months: [],
+    dates: [],
     amounts: []
 }
